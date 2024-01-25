@@ -5,7 +5,7 @@ describe("Api Testing", () => {
 
   before(() => {
     // Load fixture data before tests
-    cy.fixture("example").then((data) => {
+    cy.fixture("api_data").then((data) => {
       requestBody = data;
     });
   });
@@ -24,10 +24,11 @@ describe("Api Testing", () => {
     });
   });
 
-  it.only("Add a list of books", () => {
+  it("Add a list of books", () => {
     cy.request({
       method: "POST",
       url: "https://demoqa.com/BookStore/v1/Books",
+      timeout: 60000,
       headers: {
         Authorization: requestBody.auth,
       },
@@ -44,10 +45,10 @@ describe("Api Testing", () => {
     });
   });
 
-  it.only("Remove one of the added books", () => {
+  it("Remove one of the added books", () => {
     cy.request({
       match: "DELETE",
-      url: "https://demoqa.com/BookStore/v1/Books",
+      url: "https://demoqa.com/BookStore/v1/Book",
       headers: {
         Authorization: requestBody.auth,
       },
@@ -56,7 +57,7 @@ describe("Api Testing", () => {
         userId: requestBody.userId,
       },
     }).then((res) => {
-      expect(res.status).to.equal(200);
+      expect(res.status).to.equal(204);
     });
   });
 });

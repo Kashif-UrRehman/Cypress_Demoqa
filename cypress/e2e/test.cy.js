@@ -1,7 +1,21 @@
 ///<reference types="cypress"/>
-import "@4tw/cypress-drag-drop";
-describe("Assignment spec", () => {
+
+import MainPage from "../pages/home";
+import Elements from "../pages/elements";
+import Forms from "../pages/forms";
+import Widgets from "../pages/widgets";
+import Interactions from "../pages/interactions";
+
+describe("Assignment", () => {
   const url = "https://demoqa.com";
+  const home = new MainPage();
+  const elements = new Elements();
+  const forms = new Forms();
+  const widgets = new Widgets();
+  const interactions = new Interactions();
+
+  let userData;
+
   Cypress.on("uncaught:exception", (err, runnable) => {
     // returning false here prevents Cypress from
     // failing the test
@@ -11,154 +25,107 @@ describe("Assignment spec", () => {
   beforeEach(() => {
     cy.visit(url);
     cy.viewport(1920, 1080);
+    cy.fixture("userdata").then((data) => {
+      userData = data;
+    });
   });
 
   it("Verify user can enter new data into table", () => {
-    cy.get(".category-cards > :nth-child(1)").click();
-    cy.get(":nth-child(1) > .element-list > .menu-list > #item-3").click();
-    cy.get("#addNewRecordButton").click();
-    cy.get("#firstName").type("Alden");
-    cy.get("#lastName").type("Cantrell");
-    cy.get("#userEmail").type("test@test.com");
-    cy.get("#age").type(32);
-    cy.get("#salary").type(12345);
-    cy.get("#department").type("QA");
-    cy.get("#submit").click();
+    home.clickElement();
+    elements.clickWebTables();
+    elements.clickAdd();
+    elements.setFirstName(userData.firstName);
+    elements.setLsatName(userData.lastName);
+    elements.setEmail(userData.email);
+    elements.setAge(userData.age);
+    elements.setSalary(userData.salary);
+    elements.setDepartment(userData.department);
+    elements.clickSubmit();
 
-    cy.get(".rt-tr-group:eq(3) .rt-td:eq(0)").should("contain", "Alden");
-    cy.get(".rt-tr-group:eq(3) .rt-td:eq(1)").should("contain", "Cantrell");
-    cy.get(".rt-tr-group:eq(3) .rt-td:eq(2)").should("contain", "32");
-    cy.get(".rt-tr-group:eq(3) .rt-td:eq(3)").should(
-      "contain",
-      "test@test.com"
-    );
-    cy.get(".rt-tr-group:eq(3) .rt-td:eq(4)").should("contain", "12345");
-    cy.get(".rt-tr-group:eq(3) .rt-td:eq(5)").should("contain", "QA");
+    //helper method for assertions
+    elements.assertTableRowContent(3, [
+      userData.firstName,
+      userData.lastName,
+      userData.age,
+      userData.email,
+      userData.salary,
+      userData.department,
+    ]);
   });
 
   it("Verify user can edit the row in a table", () => {
-    cy.get(".category-cards > :nth-child(1)").click();
-    cy.get(":nth-child(1) > .element-list > .menu-list > #item-3").click();
-    cy.get("#edit-record-2").click();
+    home.clickElement();
+    elements.clickWebTables();
+    elements.clickEditRow(2);
 
-    cy.get("#firstName").clear().type("Aldren");
-    cy.get("#lastName").clear().type("BV");
-    cy.get("#submit").click();
+    elements.setFirstName(userData.editFirstName);
+    elements.setLsatName(userData.editLastName);
+    elements.clickSubmit();
 
-    cy.get(".rt-tr-group:eq(1) .rt-td:eq(0)").should("contain", "Aldren");
-    cy.get(".rt-tr-group:eq(1) .rt-td:eq(1)").should("contain", "BV");
+    //helper method for assertions
+    elements.assertTableRowContent(1, [
+      userData.editFirstName,
+      userData.editLastName,
+    ]);
   });
 
   it("verify broken images", () => {
-    cy.get(".category-cards > :nth-child(1)").click();
-    cy.get(":nth-child(1) > .element-list > .menu-list > #item-6").click();
-
-    cy.get('[src="/images/Toolsqa_1.jpg"]').each(($img) => {
-      cy.get($img)
-        .should("have.prop", "naturalWidth", 0)
-        .and("have.prop", "naturalHeight", 0);
-    });
+    home.clickElement();
+    elements.clickBrokenLinks();
+    elements.verifyBrokenImages();
   });
 
   it("Verify user can submit the form", () => {
-    cy.get(".category-cards > :nth-child(2)").click();
-    cy.get(":nth-child(2) > .element-list > .menu-list > #item-0").click();
-    cy.get("#firstName").type("Gerimedica");
-    cy.get("#lastName").type("BV");
-    cy.get("#userEmail").type("test@test.com");
+    home.clickForms();
+    forms.clickPracticeForm();
 
-    // Gender
+    forms.setFirstName(userData.formFirstName);
+    forms.setLastName(userData.formLastName);
+    forms.setEmail(userData.email);
 
-    cy.get(
-      "#genterWrapper > .col-md-9 > :nth-child(1) > .custom-control-label"
-    ).click();
+    forms.setGenderMale();
+    forms.setUserNumber(userData.userNumber);
+    forms.setDateOFBirth(userData.dateOfBirth);
+    forms.setSubject(userData.subjects);
+    forms.setHobbies();
+    forms.uploadPicture("cypress\\fixtures\\id.jpg");
+    forms.setAddress(userData.currentAddress);
+    forms.setState(userData.state);
+    forms.setCity(userData.city);
+    forms.clickSubmit();
 
-    cy.get("#userNumber").type("0123456789");
-
-    // Assuming the input field is associated with react-datepicker
-    const dateToSet = "15 Jan 1990";
-
-    // Click on the input field to open the date picker
-    cy.get("#dateOfBirthInput").click();
-
-    // Clear the existing value using invoke
-    cy.get("#dateOfBirthInput").invoke("val", "");
-
-    // Type the desired date
-    cy.get("#dateOfBirthInput").type(dateToSet);
-
-    cy.get("body").click();
-
-    cy.get(".subjects-auto-complete__value-container").type(
-      "computer science{enter}"
-    );
-
-    cy.get("body").click();
-
-    cy.get(
-      "#hobbiesWrapper > .col-md-9 > :nth-child(2) > .custom-control-label"
-    ).click();
-
-    cy.get("#uploadPicture").selectFile("cypress\\fixtures\\id.jpg");
-
-    cy.get("#currentAddress").type("Netherlands");
-
-    cy.get("#state").click(); // Click on the dropdown to open the options
-
-    // select "NCR"
-    cy.get("#react-select-3-input").type("NCR{enter}");
-
-    cy.get("#city").click();
-
-    cy.get("#react-select-4-input").type("Delhi{enter}");
-    cy.get("#submit").click();
-
-    cy.get("#example-modal-sizes-title-lg").should("contain", "Thanks");
+    forms.verification();
   });
 
   it("Verify the Progress Bar", () => {
-    cy.get(".category-cards > :nth-child(4)").click();
-    cy.get(":nth-child(4) > .element-list > .menu-list > #item-4").click();
+    home.clickWidgets();
+    widgets.clickProgressBarTab();
 
-    cy.get(".progress-bar").should("exist");
-    cy.get(".mt-3").click();
-    cy.wait(15000);
+    widgets.verifyProgressBar();
+    widgets.clickStartButton();
+    cy.wait(19000);
 
-    const color = "rgb(40, 167, 69)";
-
-    cy.get(".progress-bar")
-      .should("have.css", "background-color")
-      .and("equal", color);
-    // cy.get(".progress-bar")
-    //   .invoke("css", "background-color")
-    //   .then((color) => {
-    //     console.log("Progress bar color:", color);
-    //   });
+    widgets.verifyBarColor(userData.greenColor);
   });
 
   it("Verify the Tooltip", () => {
-    cy.get(".category-cards > :nth-child(4)").click();
-    cy.get(":nth-child(4) > .element-list > .menu-list > #item-6").click();
+    home.clickWidgets();
+    widgets.clickToolTipsTab();
 
     // Hover over the button
-    cy.get("#toolTipButton").trigger("mouseover");
+    widgets.hoverButton();
 
     // Wait for the tooltip to appear (adjust the timeout if needed)
-    cy.get('[role="tooltip"]').should("be.visible");
+    widgets.checkToolTip();
 
     // Assert the tooltip content or any other properties
-    cy.get('[role="tooltip"]').should(
-      "have.text",
-      "You hovered over the Button"
-    );
+    widgets.verifyTipContent();
   });
 
-  it.only("Verify user can drag and drop", () => {
-    cy.get(".category-cards > :nth-child(5)").click();
-    cy.get(":nth-child(5) > .element-list > .menu-list > #item-3").click();
+  it("Verify user can drag and drop", () => {
+    home.clickInteractions();
+    interactions.clickDroppable();
     cy.wait(5000);
-    cy.get("#draggable").drag("#simpleDropContainer > #droppable", {
-      force: true,
-    });
+    interactions.dragDrop();
   });
 });

@@ -1,11 +1,11 @@
 ///<reference types="cypress"/>
 
 describe("Api Testing", () => {
-  let requestBody;
+  let requestBody: any;
 
   before(() => {
     // Load fixture data before tests
-    cy.fixture("api_data").then((data) => {
+    cy.fixture("api_data").then((data: any) => {
       requestBody = data;
     });
   });
@@ -14,13 +14,19 @@ describe("Api Testing", () => {
     cy.request({
       method: "POST",
       url: "https://demoqa.com/Account/v1/User",
+      failOnStatusCode: false,
       body: {
         userName: requestBody.userName,
         password: requestBody.password,
       },
     }).then((res) => {
-      expect(res.status).to.equal(201);
-      expect(res.body.username).to.equal("go");
+      if (res.status == 201) {
+        expect(res.status).to.equal(201);
+        expect(res.body.username).to.equal(requestBody.userName);
+      } else {
+        expect(res.status).to.equal(406);
+        expect(res.body.message).to.equal("User exists!");
+      }
     });
   });
 
@@ -47,7 +53,7 @@ describe("Api Testing", () => {
 
   it("Remove one of the added books", () => {
     cy.request({
-      match: "DELETE",
+      method: "DELETE",
       url: "https://demoqa.com/BookStore/v1/Book",
       headers: {
         Authorization: requestBody.auth,

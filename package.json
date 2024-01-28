@@ -13,6 +13,7 @@
     "cypress": "^13.6.3"
   },
   "devDependencies": {
-    "@4tw/cypress-drag-drop": "^2.2.5"
+    "@4tw/cypress-drag-drop": "^2.2.5",
+    "typescript": "^5.3.3"
   }
 }

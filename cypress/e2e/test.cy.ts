@@ -7,14 +7,14 @@ import Widgets from "../pages/widgets";
 import Interactions from "../pages/interactions";
 
 describe("Assignment", () => {
-  const url = "https://demoqa.com";
-  const home = new MainPage();
-  const elements = new Elements();
-  const forms = new Forms();
-  const widgets = new Widgets();
-  const interactions = new Interactions();
+  const url: string = "https://demoqa.com";
+  const home: MainPage = new MainPage();
+  const elements: Elements = new Elements();
+  const forms: Forms = new Forms();
+  const widgets: Widgets = new Widgets();
+  const interactions: Interactions = new Interactions();
 
-  let userData;
+  let userData: any; // Use a more specific type if possible
 
   Cypress.on("uncaught:exception", (err, runnable) => {
     // returning false here prevents Cypress from
@@ -25,7 +25,7 @@ describe("Assignment", () => {
   beforeEach(() => {
     cy.visit(url);
     cy.viewport(1920, 1080);
-    cy.fixture("userdata").then((data) => {
+    cy.fixture("userdata").then((data: any) => {
       userData = data;
     });
   });
@@ -35,14 +35,14 @@ describe("Assignment", () => {
     elements.clickWebTables();
     elements.clickAdd();
     elements.setFirstName(userData.firstName);
-    elements.setLsatName(userData.lastName);
+    elements.setLastName(userData.lastName);
     elements.setEmail(userData.email);
     elements.setAge(userData.age);
     elements.setSalary(userData.salary);
     elements.setDepartment(userData.department);
     elements.clickSubmit();
 
-    //helper method for assertions
+    // helper method for assertions
     elements.assertTableRowContent(3, [
       userData.firstName,
       userData.lastName,
@@ -59,10 +59,10 @@ describe("Assignment", () => {
     elements.clickEditRow(2);
 
     elements.setFirstName(userData.editFirstName);
-    elements.setLsatName(userData.editLastName);
+    elements.setLastName(userData.editLastName);
     elements.clickSubmit();
 
-    //helper method for assertions
+    // helper method for assertions
     elements.assertTableRowContent(1, [
       userData.editFirstName,
       userData.editLastName,
@@ -85,7 +85,7 @@ describe("Assignment", () => {
 
     forms.setGenderMale();
     forms.setUserNumber(userData.userNumber);
-    forms.setDateOFBirth(userData.dateOfBirth);
+    forms.setDateOfBirth(userData.dateOfBirth);
     forms.setSubject(userData.subjects);
     forms.setHobbies();
     forms.uploadPicture("cypress\\fixtures\\id.jpg");
@@ -127,5 +127,44 @@ describe("Assignment", () => {
     interactions.clickDroppable();
     cy.wait(5000);
     interactions.dragDrop();
+  });
+
+  it("Drag and drop without library", () => {
+    home.clickInteractions();
+    interactions.clickDroppable();
+    interactions.dragWithoutLibrary();
+  });
+
+  it("Verify user can enter multiple records into table", () => {
+    cy.fixture("formData").then((formData) => {
+      home.clickElement();
+      elements.clickWebTables();
+
+      // Iterate over each data entry
+      formData.forEach((data: any, index: any) => {
+        // Your test logic here using the 'data' object
+
+        elements.clickAdd();
+        elements.setFirstName(data.firstName);
+        elements.setLastName(data.lastName);
+        elements.setEmail(data.email);
+        elements.setAge(data.age);
+        elements.setSalary(data.salary);
+        elements.setDepartment(data.department);
+        elements.clickSubmit();
+
+        // cy.log(`Test iteration ${index + 1}`);
+        // helper method for assertions
+        cy.wait(3000);
+        elements.assertTableRowContent(index + 3, [
+          data.firstName,
+          data.lastName,
+          data.age,
+          data.email,
+          data.salary,
+          data.department,
+        ]);
+      });
+    });
   });
 });

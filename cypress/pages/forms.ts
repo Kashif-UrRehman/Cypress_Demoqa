@@ -1,27 +1,31 @@
-class Forms {
-  clickPracticeForm() {
+import BasePage from "./basePage";
+
+class Forms extends BasePage {
+  clickPracticeForm(): void {
     cy.contains(".btn", "Practice Form").click();
   }
-  setFirstName(firstName) {
+
+  setFirstName(firstName: string): void {
     cy.get("#firstName").type(firstName);
   }
-  setLastName(lastName) {
+
+  setLastName(lastName: string): void {
     cy.get("#lastName").type(lastName);
   }
 
-  setEmail(email) {
+  setEmail(email: string): void {
     cy.get("#userEmail").type(email);
   }
 
-  setGenderMale() {
+  setGenderMale(): void {
     cy.get("#gender-radio-1").check({ force: true });
   }
 
-  setUserNumber(number) {
+  setUserNumber(number: string): void {
     cy.get("#userNumber").type(number);
   }
 
-  setDateOfBirth(date) {
+  setDateOfBirth(date: string): void {
     // Assuming the input field is associated with react-datepicker
     const dateToSet = date;
 
@@ -37,41 +41,41 @@ class Forms {
     cy.get("body").click();
   }
 
-  setSubject(subject) {
+  setSubject(subject: string): void {
     cy.get(".subjects-auto-complete__value-container").type(
       `${subject}{enter}`
     );
   }
 
-  setHobbies() {
+  setHobbies(): void {
     cy.get("#hobbies-checkbox-2").check({ force: true });
   }
 
-  uploadPicture(path) {
+  uploadPicture(path: string): void {
     cy.get("#uploadPicture").selectFile(path);
   }
 
-  setAddress(address) {
+  setAddress(address: string): void {
     cy.get("#currentAddress").type("Netherlands");
   }
 
-  setState(state) {
+  setState(state: string): void {
     cy.get("#state").click(); // Click on the dropdown to open the options
 
     cy.get("#react-select-3-input").type(`${state}{enter}`);
   }
 
-  setCity(city) {
+  setCity(city: string): void {
     cy.get("#city").click();
 
     cy.get("#react-select-4-input").type(`${city}{enter}`);
   }
 
-  clickSubmit() {
+  clickSubmit(): void {
     cy.get("#submit").click();
   }
 
-  verification() {
+  verification(): void {
     cy.get("#example-modal-sizes-title-lg").should("contain", "Thanks");
   }
 }

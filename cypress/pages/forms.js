@@ -52,7 +52,7 @@ class Forms {
   }
 
   setAddress(address) {
-    cy.get("#currentAddress").type("Netherlands");
+    cy.get("#currentAddress").type(address);
   }
 
   setState(state) {

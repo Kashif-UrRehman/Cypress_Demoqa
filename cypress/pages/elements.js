@@ -10,10 +10,12 @@ class Elements {
     cy.get("#addNewRecordButton").click();
   }
   setFirstName(firstName) {
-    cy.get("#firstName").clear().type(firstName);
+    cy.get("#firstName").clear();
+    cy.get("#firstName").type(firstName);
   }
   setLastName(lastName) {
-    cy.get("#lastName").clear().type(lastName);
+    cy.get("#lastName").clear();
+    cy.get("#lastName").type(lastName);
   }
   setEmail(email) {
     cy.get("#userEmail").type(email);

@@ -7,6 +7,7 @@ import Widgets from "../pages/widgets";
 import Interactions from "../pages/interactions";
 
 describe("Assignment", () => {
+  /* eslint-disable cypress/no-unnecessary-waiting */
   const url: string = "https://demoqa.com";
   const home: MainPage = new MainPage();
   const elements: Elements = new Elements();
@@ -16,7 +17,7 @@ describe("Assignment", () => {
 
   let userData: any; // Use a more specific type if possible
 
-  Cypress.on("uncaught:exception", (err, runnable) => {
+  Cypress.on("uncaught:exception", (_err, _runnable) => {
     // returning false here prevents Cypress from
     // failing the test
     return false;

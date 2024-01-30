@@ -1,4 +1,3 @@
-import { any } from "cypress/types/bluebird";
 import BasePage from "./basePage";
 
 class Elements extends BasePage {
@@ -15,11 +14,13 @@ class Elements extends BasePage {
   }
 
   setFirstName(firstName: string): void {
-    cy.get("#firstName").clear().type(firstName);
+    cy.get("#firstName").clear();
+    cy.get("#firstName").type(firstName);
   }
 
   setLastName(lastName: string): void {
-    cy.get("#lastName").clear().type(lastName);
+    cy.get("#lastName").clear();
+    cy.get("#lastName").type(lastName);
   }
 
   setEmail(email: string): void {

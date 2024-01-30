@@ -56,7 +56,7 @@ class Forms extends BasePage {
   }
 
   setAddress(address: string): void {
-    cy.get("#currentAddress").type("Netherlands");
+    cy.get("#currentAddress").type(address);
   }
 
   setState(state: string): void {

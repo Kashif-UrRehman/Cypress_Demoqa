@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cypress run"
+    "test": "cypress run",
+    "lint": "eslint .",
+    "cypress:dashboard": "npx cypress run --record --key c73a9637-a542-4d33-bcba-90706741c086"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +16,10 @@
   },
   "devDependencies": {
     "@4tw/cypress-drag-drop": "^2.2.5",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-cypress": "^2.15.1",
     "typescript": "^5.3.3"
   }
 }

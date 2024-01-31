@@ -34,9 +34,8 @@ describe("Api Testing", () => {
     cy.request({
       method: "POST",
       url: "https://demoqa.com/BookStore/v1/Books",
-      timeout: 6000,
       headers: {
-        Authorization: requestBody.auth,
+        Authorization: `Bearer ${requestBody.token}`,
         "Content-type": "application/json",
       },
       body: {
@@ -57,7 +56,7 @@ describe("Api Testing", () => {
       method: "DELETE",
       url: "https://demoqa.com/BookStore/v1/Book",
       headers: {
-        Authorization: requestBody.auth,
+        Authorization: `Bearer ${requestBody.token}`,
         "Content-type": "application/json",
       },
       body: {

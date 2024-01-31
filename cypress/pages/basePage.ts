@@ -1,4 +1,9 @@
 export default class BasePage {
-  protected headerElement = cy.get("header");
-  protected footerElement = cy.get("footer");
+  protected getHeaderElement() {
+    return cy.get("header");
+  }
+
+  protected getFooterElement() {
+    return cy.get("footer");
+  }
 }

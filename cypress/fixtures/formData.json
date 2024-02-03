@@ -1,0 +1,18 @@
+[
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "age": 25,
+    "salary": 67890,
+    "department": "UI"
+  },
+  {
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "email": "jane.doe@example.com",
+    "age": 28,
+    "salary": 11121,
+    "department": "BE"
+  }
+]

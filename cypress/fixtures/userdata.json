@@ -1,0 +1,22 @@
+{
+  "firstName": "Alden",
+  "lastName": "Cantrell",
+  "email": "test@test.com",
+  "age": 32,
+  "salary": 12345,
+  "department": "QA",
+
+  "editFirstName": "Aldren",
+  "editLastName": "BV",
+
+  "formFirstName": "Gerimedica",
+  "formLastName": "BV",
+  "userNumber": "0123456789",
+  "dateOfBirth": "15 Jan 1990",
+  "subjects": "computer science",
+  "currentAddress": "Netherlands",
+  "state": "NCR",
+  "city": "Delhi",
+
+  "greenColor": "rgb(40, 167, 69)"
+}

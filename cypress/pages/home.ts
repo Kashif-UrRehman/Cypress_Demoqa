@@ -1,26 +1,23 @@
 import BasePage from "./basePage";
+import Elements from "./elements";
 
+const elements = new Elements('div[class="card mt-4 top-card"]');
 class MainPage extends BasePage {
-    clickElement(): void {
-      this.clickCard(0);
-    }
-  
-    clickForms(): void {
-      this.clickCard(1);
-    }
-  
-    clickWidgets(): void {
-      this.clickCard(3);
-    }
-  
-    clickInteractions(): void {
-      this.clickCard(4);
-    }
-  
-    private clickCard(index: number): void {
-      cy.get(`div[class="card mt-4 top-card"]:eq(${index})`).click();
-    }
+  clickElement(): void {
+    elements.clickElementAtIndex(0);
   }
-  
-  export default MainPage;
-  
+
+  clickForms(): void {
+    elements.clickElementAtIndex(1);
+  }
+
+  clickWidgets(): void {
+    elements.clickElementAtIndex(3);
+  }
+
+  clickInteractions(): void {
+    elements.clickElementAtIndex(4);
+  }
+}
+
+export default MainPage;

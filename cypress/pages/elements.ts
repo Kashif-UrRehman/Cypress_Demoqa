@@ -1,69 +1,216 @@
+import { ElementsInterface, CheckOptions } from "./elementsInterface";
 import BasePage from "./basePage";
 
-class Elements extends BasePage {
-  clickWebTables(): void {
-    cy.contains(".btn", "Web Tables").click();
+class Elements extends BasePage implements ElementsInterface {
+  private element: string;
+
+  constructor(selector: string) {
+    super();
+    this.element = selector;
   }
 
-  clickBrokenLinks(): void {
-    cy.contains(".btn", "Broken Links - Images").click();
+  getElement(): Cypress.Chainable<JQuery<HTMLElement>> {
+    return cy.get(this.element);
   }
 
-  clickAdd(): void {
-    cy.get("#addNewRecordButton").click();
+  setElementValue(value: string): void {
+    try {
+      this.getElement().invoke("val", value);
+    } catch (error) {
+      console.error(
+        `Failed to set value for element with selector ${this.element}:`,
+        (error as Error).message
+      );
+    }
   }
 
-  setFirstName(firstName: string): void {
-    cy.get("#firstName").clear();
-    cy.get("#firstName").type(firstName);
+  click(): void {
+    try {
+      this.getElement().click();
+    } catch (error) {
+      console.error("Failed to click element:", error);
+    }
   }
 
-  setLastName(lastName: string): void {
-    cy.get("#lastName").clear();
-    cy.get("#lastName").type(lastName);
+  check(options?: CheckOptions): void {
+    try {
+      this.getElement().check(options);
+    } catch (error) {
+      console.error("Failed to check element:", (error as Error).message);
+    }
   }
 
-  setEmail(email: string): void {
-    cy.get("#userEmail").type(email);
+  type(text: string) {
+    try {
+      this.getElement().type(text);
+    } catch (error) {
+      console.error("Failed to type text into element:", error);
+    }
   }
 
-  setAge(age: string): void {
-    cy.get("#age").type(age);
+  clear() {
+    try {
+      this.getElement().clear();
+    } catch (error) {
+      console.error("Failed to clear element text:", error);
+    }
   }
 
-  setSalary(salary: string): void {
-    cy.get("#salary").type(salary);
+  shouldHaveText(text: string) {
+    try {
+      this.getElement().should("have.text", text);
+    } catch (error: any) {
+      console.error(`Element did not have expected text "${text}":`, error);
+    }
   }
 
-  setDepartment(department: string): void {
-    cy.get("#department").type(department);
+  verifyImageProperties(): void {
+    try {
+      this.getElement().each(($img: any) => {
+        cy.get($img)
+          .should("have.prop", "naturalWidth", 0)
+          .and("have.prop", "naturalHeight", 0);
+      });
+    } catch (error) {
+      console.error("Failed:", error);
+    }
+  }
+  selectFile(path: string): void {
+    try {
+      this.getElement().selectFile(path);
+    } catch (error) {
+      console.error(
+        `Failed to select file for element with selector ${this.element}:`,
+        (error as Error).message
+      );
+    }
   }
 
-  clickSubmit(): void {
-    cy.get("#submit").click();
+  assertElementContains(expectedText: string): void {
+    try {
+      this.getElement().should("contain", expectedText);
+    } catch (error) {
+      console.error(
+        `Assertion failed: Element with selector ${this.element} does not contain "${expectedText}":`,
+        (error as Error).message
+      );
+    }
   }
 
-  clickEditRow(rowNo: number): void {
-    cy.get(`#edit-record-${rowNo}`).click();
+  dragAndDrop(targetSelector: string, options?: CheckOptions): void {
+    try {
+      this.getElement().drag(targetSelector, options);
+    } catch (error) {
+      console.error(
+        `Drag-and-drop failed: Element with selector ${this.element} could not be dragged to ${targetSelector}:`,
+        (error as Error).message
+      );
+    }
   }
 
-  verifyBrokenImages(): void {
-    cy.get('[src="/images/Toolsqa_1.jpg"]').each(($img: any) => {
-      cy.get($img)
-        .should("have.prop", "naturalWidth", 0)
-        .and("have.prop", "naturalHeight", 0);
-    });
+  dragDropWithoutPlugin(
+    targetSelector: Cypress.Chainable<JQuery<HTMLElement>>
+  ): void {
+    try {
+      this.getElement().trigger("mousedown", { which: 1 });
+
+      // Extract the HTML element from the Cypress.Chainable<JQuery<HTMLElement>>
+      targetSelector.then((targetElement) => {
+        cy.wrap(targetElement).trigger("mousemove");
+        cy.wrap(targetElement).trigger("mouseup", { force: true });
+      });
+    } catch (error) {
+      console.error(
+        `Drag-and-drop failed: Element with selector ${this.element} could not be dragged to ${targetSelector}:`,
+        (error as Error).message
+      );
+    }
   }
 
-  assertTableRowContent(rowIndex: number, expectedData: string[]): void {
-    const numberOfCellsToAssert = Math.min(expectedData.length, 6);
-
-    cy.get(
-      `.rt-tr-group:eq(${rowIndex}) .rt-td:lt(${numberOfCellsToAssert})`
-    ).each(($td, index) => {
-      cy.wrap($td).should("contain", expectedData[index]);
-    });
+  triggerMouseOver(): void {
+    try {
+      this.getElement().trigger("mouseover");
+    } catch (error) {
+      console.error(
+        `Mouseover failed for element with selector ${this.element}:`,
+        (error as Error).message
+      );
+    }
   }
+
+  assertTooltipVisible(customLocator?: string): void {
+    try {
+      const locator = customLocator || '[role="tooltip"]';
+      cy.get(locator).should("be.visible");
+    } catch (error) {
+      console.error(
+        `Assertion failed: Tooltip for element with selector ${this.element} is not visible:`,
+        (error as Error).message
+      );
+    }
+  }
+
+  assertTooltipContent(expectedContent: string, customLocator?: string): void {
+    try {
+      const locator = customLocator || '[role="tooltip"]';
+      cy.get(locator).should("have.text", expectedContent);
+    } catch (error) {
+      console.error(
+        `Assertion failed: Tooltip content for element with selector ${this.element} does not match:`,
+        (error as Error).message
+      );
+    }
+  }
+
+  assertElementExists(): void {
+    try {
+      this.getElement().should("exist");
+    } catch (error) {
+      console.error(
+        `Assertion failed: Element does not exist:`,
+        (error as Error).message
+      );
+    }
+  }
+
+  assertElementCss(propertyName: string, expectedValue: string): void {
+    try {
+      this.getElement()
+        .should("have.css", propertyName)
+        .and("equal", expectedValue);
+    } catch (error) {
+      console.error(
+        `CSS property assertion failed: ${propertyName} for element with selector does not match:`,
+        (error as Error).message
+      );
+    }
+  }
+
+  clickElementAtIndex(index: number): void {
+    try {
+      const selector = `${this.element}:eq(${index})`;
+      cy.get(selector).click();
+    } catch (error) {
+      console.error(
+        `Click action failed for element at index ${index} with selector ${this.element}:`,
+        (error as Error).message
+      );
+    }
+  }
+
+  // private getTableCells(rowIndex: number, numberOfCellsToAssert: number) {
+  //   return cy.get(
+  //     `${this.element} .rt-tr-group:eq(${rowIndex}) .rt-td:lt(${numberOfCellsToAssert})`
+  //   );
+  // }
+
+  // assertTableRowContent(rowIndex: number, expectedData: string[]): void {
+  //   const numberOfCellsToAssert = Math.min(expectedData.length, 6);
+
+  //   this.getTableCells(rowIndex, numberOfCellsToAssert).each(($td, index) => {
+  //     cy.wrap($td).should("contain", expectedData[index]);
+  //   });
+  // }
 }
 
 export default Elements;

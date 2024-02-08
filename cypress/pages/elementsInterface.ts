@@ -1,4 +1,8 @@
 export interface ElementsInterface {
+  getElement(): Cypress.Chainable<JQuery<HTMLElement>>;
+
+  setElementValue(value: string): void;
+
   click(): void;
 
   check(options?: CheckOptions): void;
@@ -7,13 +11,13 @@ export interface ElementsInterface {
 
   clear(): void;
 
-  shouldHaveText(text: string): void;
+  shouldHaveText(text: string): boolean;
 
   verifyImageProperties(): void;
 
   selectFile(path: string): void;
 
-  assertElementContains(selector: string, expectedText: string): void;
+  verifyElementContains(selector: string, expectedText: string): boolean;
 
   dragAndDrop(targetSelector: string, options?: CheckOptions): void;
 
@@ -23,17 +27,17 @@ export interface ElementsInterface {
 
   triggerMouseOver(): void;
 
-  assertTooltipVisible(): void;
+  verifyTooltipVisible(): void;
 
-  assertTooltipContent(expectedContent: string, customLocator?: string): void;
+  verifyTooltipContent(expectedContent: string, customLocator?: string): void;
 
-  assertElementExists(): void;
+  verifyElementExists(): void;
 
-  assertElementCss(propertyName: string, expectedValue: string): void;
+  verifyElementCss(propertyName: string, expectedValue: string): void;
 
   clickElementAtIndex(index: number): void;
 
-  // assertTableRowContent(rowIndex: number, expectedData: string[]): void;
+  verifyTableRowContent(rowIndex: number, expectedData: string[]): void;
 }
 
 export interface CheckOptions {

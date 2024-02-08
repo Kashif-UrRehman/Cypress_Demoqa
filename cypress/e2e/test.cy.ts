@@ -103,8 +103,8 @@ describe("Assignment", () => {
 
     widgets.verifyProgressBar();
     widgets.clickStartButton();
-    cy.wait(19000);
 
+    widgets.verifyBarFullProgress();
     widgets.verifyBarColor(userData.greenColor);
   });
 
@@ -155,7 +155,7 @@ describe("Assignment", () => {
 
         // cy.log(`Test iteration ${index + 1}`);
         // helper method for assertions
-        cy.wait(3000);
+
         elements.assertTableRowContent(index + 3, [
           data.firstName,
           data.lastName,

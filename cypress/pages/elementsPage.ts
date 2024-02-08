@@ -13,6 +13,8 @@ const departmentField = new Elements("#department");
 const submitField = new Elements("#submit");
 const imageElement = new Elements('[src="/images/Toolsqa_1.jpg"]');
 
+const tableRow = new Elements(".rt-tr-group");
+
 class ElementsPage extends BasePage {
   clickWebTables(): void {
     webTables.click();
@@ -66,13 +68,7 @@ class ElementsPage extends BasePage {
   }
 
   assertTableRowContent(rowIndex: number, expectedData: string[]): void {
-    const numberOfCellsToAssert = Math.min(expectedData.length, 6);
-
-    cy.get(
-      `.rt-tr-group:eq(${rowIndex}) .rt-td:lt(${numberOfCellsToAssert})`
-    ).each(($td, index) => {
-      cy.wrap($td).should("contain", expectedData[index]);
-    });
+    tableRow.verifyTableRowContent(rowIndex, expectedData);
   }
 }
 

@@ -21,16 +21,16 @@ class Widgets extends BasePage {
   }
 
   checkToolTip(): void {
-    hoverBtn.assertTooltipVisible();
+    hoverBtn.verifyTooltipVisible();
   }
 
   verifyTipContent(): void {
     const tipText = "You hovered over the Button";
-    hoverBtn.assertTooltipContent(tipText);
+    hoverBtn.verifyTooltipContent(tipText);
   }
 
   verifyProgressBar(): void {
-    progressBar.assertElementExists();
+    progressBar.verifyElementExists();
   }
 
   clickStartButton(): void {
@@ -38,11 +38,11 @@ class Widgets extends BasePage {
   }
 
   verifyBarFullProgress() {
-    cy.get(".progress-bar").should("contain", "100%");
+    cy.get(".progress-bar", { timeout: 20000 }).should("contain", "100%");
   }
 
   verifyBarColor(color: string): void {
-    progressBar.assertElementCss("background-color", color);
+    progressBar.verifyElementCss("background-color", color);
   }
 }
 

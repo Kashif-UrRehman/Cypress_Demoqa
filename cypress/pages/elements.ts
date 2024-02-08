@@ -28,7 +28,8 @@ class Elements extends BasePage implements ElementsInterface {
     try {
       this.getElement().click();
     } catch (error) {
-      console.error("Failed to click element:", error);
+      const errorMessage = (error as Error).message || "Unknown error";
+      console.error(`Failed to click element: ${errorMessage}`);
     }
   }
 
@@ -56,12 +57,15 @@ class Elements extends BasePage implements ElementsInterface {
     }
   }
 
-  shouldHaveText(text: string) {
+  shouldHaveText(text: string): boolean {
+    let isTextPresent = false;
     try {
       this.getElement().should("have.text", text);
-    } catch (error: any) {
+      isTextPresent = true;
+    } catch (error) {
       console.error(`Element did not have expected text "${text}":`, error);
     }
+    return isTextPresent;
   }
 
   verifyImageProperties(): void {
@@ -86,17 +90,19 @@ class Elements extends BasePage implements ElementsInterface {
     }
   }
 
-  assertElementContains(expectedText: string): void {
+  verifyElementContains(expectedText: string): boolean {
+    let isTextPresent = false;
     try {
       this.getElement().should("contain", expectedText);
+      isTextPresent = true;
     } catch (error) {
       console.error(
         `Assertion failed: Element with selector ${this.element} does not contain "${expectedText}":`,
         (error as Error).message
       );
     }
+    return isTextPresent;
   }
-
   dragAndDrop(targetSelector: string, options?: CheckOptions): void {
     try {
       this.getElement().drag(targetSelector, options);
@@ -138,7 +144,7 @@ class Elements extends BasePage implements ElementsInterface {
     }
   }
 
-  assertTooltipVisible(customLocator?: string): void {
+  verifyTooltipVisible(customLocator?: string): void {
     try {
       const locator = customLocator || '[role="tooltip"]';
       cy.get(locator).should("be.visible");
@@ -150,7 +156,7 @@ class Elements extends BasePage implements ElementsInterface {
     }
   }
 
-  assertTooltipContent(expectedContent: string, customLocator?: string): void {
+  verifyTooltipContent(expectedContent: string, customLocator?: string): void {
     try {
       const locator = customLocator || '[role="tooltip"]';
       cy.get(locator).should("have.text", expectedContent);
@@ -162,7 +168,7 @@ class Elements extends BasePage implements ElementsInterface {
     }
   }
 
-  assertElementExists(): void {
+  verifyElementExists(): void {
     try {
       this.getElement().should("exist");
     } catch (error) {
@@ -173,14 +179,14 @@ class Elements extends BasePage implements ElementsInterface {
     }
   }
 
-  assertElementCss(propertyName: string, expectedValue: string): void {
+  verifyElementCss(propertyName: string, expectedValue: string): void {
     try {
       this.getElement()
         .should("have.css", propertyName)
         .and("equal", expectedValue);
     } catch (error) {
       console.error(
-        `CSS property assertion failed: ${propertyName} for element with selector does not match:`,
+        `CSS property assertion failed: ${propertyName} for element with selector ${this.element} does not match:`,
         (error as Error).message
       );
     }
@@ -198,19 +204,25 @@ class Elements extends BasePage implements ElementsInterface {
     }
   }
 
-  // private getTableCells(rowIndex: number, numberOfCellsToAssert: number) {
-  //   return cy.get(
-  //     `${this.element} .rt-tr-group:eq(${rowIndex}) .rt-td:lt(${numberOfCellsToAssert})`
-  //   );
-  // }
+  verifyTableRowContent(rowIndex: number, expectedData: string[]): void {
+    try {
+      const numberOfCellsToAssert = Math.min(expectedData.length, 6);
 
-  // assertTableRowContent(rowIndex: number, expectedData: string[]): void {
-  //   const numberOfCellsToAssert = Math.min(expectedData.length, 6);
-
-  //   this.getTableCells(rowIndex, numberOfCellsToAssert).each(($td, index) => {
-  //     cy.wrap($td).should("contain", expectedData[index]);
-  //   });
-  // }
+      cy.get(
+        `${this.element}:eq(${rowIndex}) .rt-td:lt(${numberOfCellsToAssert})`,
+        {
+          timeout: 3000,
+        }
+      ).each(($td, index) => {
+        cy.wrap($td).should("contain", expectedData[index]);
+      });
+    } catch (error) {
+      console.error(
+        `Assertion failed: Error occurred while asserting table row content:`,
+        (error as Error).message
+      );
+    }
+  }
 }
 
 export default Elements;

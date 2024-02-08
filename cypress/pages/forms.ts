@@ -90,7 +90,7 @@ class Forms extends BasePage {
   }
 
   verification(string: string): void {
-    assertionElement.assertElementContains(string);
+    assertionElement.verifyElementContains(string);
   }
 }
 

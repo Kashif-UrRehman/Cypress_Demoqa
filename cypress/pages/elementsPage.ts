@@ -1,62 +1,65 @@
 import BasePage from "./basePage";
 import Elements from "./elements";
 
-const webTables = new Elements(".btn:contains('Web Tables')");
-const brokenLinks = new Elements(".btn:contains('Broken Links - Images')");
-const addRecordBtn = new Elements("#addNewRecordButton");
-const firstNameField = new Elements("#firstName");
-const lastNameField = new Elements("#lastName");
-const userEmailField = new Elements("#userEmail");
-const ageField = new Elements("#age");
-const salaryField = new Elements("#salary");
-const departmentField = new Elements("#department");
-const submitField = new Elements("#submit");
-const imageElement = new Elements('[src="/images/Toolsqa_1.jpg"]');
+const selectors = {
+  webTables: ".btn:contains('Web Tables')",
+  brokenLinks: ".btn:contains('Broken Links - Images')",
+  addRecordBtn: "#addNewRecordButton",
+  firstNameField: "#firstName",
+  lastNameField: "#lastName",
+  userEmailField: "#userEmail",
+  ageField: "#age",
+  salaryField: "#salary",
+  departmentField: "#department",
+  submitField: "#submit",
+  imageElement: '[src="/images/Toolsqa_1.jpg"]',
+  tableRow: ".rt-tr-group",
+};
 
-const tableRow = new Elements(".rt-tr-group");
+const element = new Elements();
 
 class ElementsPage extends BasePage {
   clickWebTables(): void {
-    webTables.click();
+    element.click(selectors.webTables);
   }
 
   clickBrokenLinks(): void {
-    brokenLinks.click();
+    element.click(selectors.brokenLinks);
   }
 
   clickAdd(): void {
-    addRecordBtn.click();
+    element.click(selectors.addRecordBtn);
   }
 
   setFirstName(firstName: string): void {
-    firstNameField.clear();
-    firstNameField.type(firstName);
+    element.clear(selectors.firstNameField);
+    element.type(selectors.firstNameField, firstName);
   }
 
   setLastName(lastName: string): void {
-    lastNameField.clear();
-    lastNameField.type(lastName);
+    element.clear(selectors.lastNameField);
+    element.type(selectors.lastNameField, lastName);
   }
 
   setEmail(email: string): void {
-    userEmailField.clear();
-    userEmailField.type(email);
+    element.clear(selectors.userEmailField);
+    element.type(selectors.userEmailField, email);
   }
 
   setAge(age: string): void {
-    ageField.type(age);
+    element.type(selectors.ageField, age);
   }
 
   setSalary(salary: string): void {
-    salaryField.type(salary);
+    element.type(selectors.salaryField, salary);
   }
 
   setDepartment(department: string): void {
-    departmentField.type(department);
+    element.type(selectors.departmentField, department);
   }
 
   clickSubmit(): void {
-    submitField.click();
+    element.click(selectors.submitField);
   }
 
   clickEditRow(rowNo: number): void {
@@ -64,11 +67,11 @@ class ElementsPage extends BasePage {
   }
 
   verifyBrokenImages(): void {
-    imageElement.verifyImageProperties();
+    element.verifyImageProperties(selectors.imageElement);
   }
 
   assertTableRowContent(rowIndex: number, expectedData: string[]): void {
-    tableRow.verifyTableRowContent(rowIndex, expectedData);
+    element.verifyTableRowContent(selectors.tableRow, rowIndex, expectedData);
   }
 }
 

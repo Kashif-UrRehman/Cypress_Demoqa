@@ -2,20 +2,30 @@ import BasePage from "./basePage";
 import "@4tw/cypress-drag-drop";
 import Elements from "./elements";
 
-const droppableTab = new Elements(".btn:contains('Droppable')");
-const draggableElement = new Elements("#draggable");
-const targetDrop = "#droppable";
+const selectors = {
+  droppableTab: ".btn:contains('Droppable')",
+  draggableElement: "#draggable",
+  targetDrop: "#droppable",
+};
+
+const elements = new Elements();
+
 class Interactions extends BasePage {
   clickDroppable(): void {
-    droppableTab.click();
+    elements.click(selectors.droppableTab);
   }
 
   dragDrop(): void {
-    draggableElement.dragAndDrop(targetDrop, { force: true });
+    elements.dragAndDrop(selectors.draggableElement, selectors.targetDrop, {
+      force: true,
+    });
   }
 
   dragWithoutLibrary(): void {
-    draggableElement.dragDropWithoutPlugin(cy.get(targetDrop));
+    elements.dragDropWithoutPlugin(
+      selectors.draggableElement,
+      cy.get(selectors.targetDrop)
+    );
   }
 }
 

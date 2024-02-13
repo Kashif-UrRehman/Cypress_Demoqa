@@ -1,40 +1,44 @@
 import BasePage from "./basePage";
 import Elements from "./elements";
 
-const progressBarTab = new Elements(".btn:contains('Progress Bar')");
-const toolTipsTab = new Elements(".btn:contains('Tool Tips')");
-const hoverBtn = new Elements("#toolTipButton");
-const progressBar = new Elements(".progress-bar");
-const startBarBtn = new Elements(".mt-3");
+const selectors = {
+  progressBarTab: ".btn:contains('Progress Bar')",
+  toolTipsTab: ".btn:contains('Tool Tips')",
+  hoverBtn: "#toolTipButton",
+  progressBar: ".progress-bar",
+  startBarBtn: ".mt-3",
+};
+
+const elements = new Elements();
 
 class Widgets extends BasePage {
   clickProgressBarTab(): void {
-    progressBarTab.click();
+    elements.click(selectors.progressBarTab);
   }
 
   clickToolTipsTab(): void {
-    toolTipsTab.click();
+    elements.click(selectors.toolTipsTab);
   }
 
   hoverButton(): void {
-    hoverBtn.triggerMouseOver();
+    elements.triggerMouseOver(selectors.hoverBtn);
   }
 
   checkToolTip(): void {
-    hoverBtn.verifyTooltipVisible();
+    elements.verifyTooltipVisible(selectors.hoverBtn);
   }
 
   verifyTipContent(): void {
     const tipText = "You hovered over the Button";
-    hoverBtn.verifyTooltipContent(tipText);
+    elements.verifyTooltipContent(selectors.hoverBtn, tipText);
   }
 
   verifyProgressBar(): void {
-    progressBar.verifyElementExists();
+    elements.verifyElementExists(selectors.progressBar);
   }
 
   clickStartButton(): void {
-    startBarBtn.click();
+    elements.click(selectors.startBarBtn);
   }
 
   verifyBarFullProgress() {
@@ -42,7 +46,7 @@ class Widgets extends BasePage {
   }
 
   verifyBarColor(color: string): void {
-    progressBar.verifyElementCss("background-color", color);
+    elements.verifyElementCss(selectors.progressBar, "background-color", color);
   }
 }
 

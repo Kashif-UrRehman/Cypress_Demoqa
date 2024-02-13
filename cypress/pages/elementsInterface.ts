@@ -1,43 +1,58 @@
 export interface ElementsInterface {
-  getElement(): Cypress.Chainable<JQuery<HTMLElement>>;
+  setElementValue(locator: string, value: string): void;
 
-  setElementValue(value: string): void;
+  click(locator: string): void;
 
-  click(): void;
+  check(locator: string, options?: CheckOptions): void;
 
-  check(options?: CheckOptions): void;
+  type(locator: string, text: string): void;
 
-  type(text: string): void;
+  clear(locator: string): void;
 
-  clear(): void;
+  shouldHaveText(locator: string, text: string): boolean;
 
-  shouldHaveText(text: string): boolean;
+  verifyImageProperties(locator: string): void;
 
-  verifyImageProperties(): void;
-
-  selectFile(path: string): void;
+  selectFile(locator: string, path: string): void;
 
   verifyElementContains(selector: string, expectedText: string): boolean;
 
-  dragAndDrop(targetSelector: string, options?: CheckOptions): void;
+  dragAndDrop(
+    locator: string,
+    targetSelector: string,
+    options?: CheckOptions
+  ): void;
 
   dragDropWithoutPlugin(
+    locator: string,
     targetSelector: Cypress.Chainable<JQuery<HTMLElement>>
   ): void;
 
-  triggerMouseOver(): void;
+  triggerMouseOver(locator: string): void;
 
-  verifyTooltipVisible(): void;
+  verifyTooltipVisible(locator: string): void;
 
-  verifyTooltipContent(expectedContent: string, customLocator?: string): void;
+  verifyTooltipContent(
+    locator: string,
+    expectedContent: string,
+    customLocator?: string
+  ): void;
 
-  verifyElementExists(): void;
+  verifyElementExists(locator: string): void;
 
-  verifyElementCss(propertyName: string, expectedValue: string): void;
+  verifyElementCss(
+    locator: string,
+    propertyName: string,
+    expectedValue: string
+  ): void;
 
-  clickElementAtIndex(index: number): void;
+  clickElementAtIndex(locator: string, index: number): void;
 
-  verifyTableRowContent(rowIndex: number, expectedData: string[]): void;
+  verifyTableRowContent(
+    locator: string,
+    rowIndex: number,
+    expectedData: string[]
+  ): void;
 }
 
 export interface CheckOptions {

@@ -90,6 +90,7 @@ Make sure you have the following installed:
    ```bash
    npm install
    ```
+4. **Create .env file from .env.sample**
 
 ## Running the Tests
 

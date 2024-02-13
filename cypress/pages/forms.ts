@@ -1,47 +1,51 @@
 import BasePage from "./basePage";
 import Elements from "./elements";
 
-const practiceForm = new Elements(".btn:contains('Practice Form')");
-const firstNameField = new Elements("#firstName");
-const lastNameField = new Elements("#lastName");
-const userEmailField = new Elements("#userEmail");
-const maleRadio = new Elements("#gender-radio-1");
-const userNumberField = new Elements("#userNumber");
-const dobField = new Elements("#dateOfBirthInput");
-const subjectField = new Elements(".subjects-auto-complete__value-container");
-const readingHobbies = new Elements("#hobbies-checkbox-2");
-const chooseFileBtn = new Elements("#uploadPicture");
-const currentAddressField = new Elements("#currentAddress");
-const stateDropdown = new Elements("#state");
-const stateField = new Elements("#react-select-3-input");
-const cityDropdown = new Elements("#city");
-const cityField = new Elements("#react-select-4-input");
-const submitBtn = new Elements("#submit");
-const assertionElement = new Elements("#example-modal-sizes-title-lg");
+const selectors = {
+  practiceForm: ".btn:contains('Practice Form')",
+  firstNameField: "#firstName",
+  lastNameField: "#lastName",
+  userEmailField: "#userEmail",
+  maleRadio: "#gender-radio-1",
+  userNumberField: "#userNumber",
+  dobField: "#dateOfBirthInput",
+  subjectField: ".subjects-auto-complete__value-container",
+  readingHobbies: "#hobbies-checkbox-2",
+  chooseFileBtn: "#uploadPicture",
+  currentAddressField: "#currentAddress",
+  stateDropdown: "#state",
+  stateField: "#react-select-3-input",
+  cityDropdown: "#city",
+  cityField: "#react-select-4-input",
+  submitBtn: "#submit",
+  assertionElement: "#example-modal-sizes-title-lg",
+};
+
+const element = new Elements();
 
 class Forms extends BasePage {
   clickPracticeForm(): void {
-    practiceForm.click();
+    element.click(selectors.practiceForm);
   }
 
   setFirstName(firstName: string): void {
-    firstNameField.type(firstName);
+    element.type(selectors.firstNameField, firstName);
   }
 
   setLastName(lastName: string): void {
-    lastNameField.type(lastName);
+    element.type(selectors.lastNameField, lastName);
   }
 
   setEmail(email: string): void {
-    userEmailField.type(email);
+    element.type(selectors.userEmailField, email);
   }
 
   setGenderMale(): void {
-    maleRadio.check({ force: true });
+    element.check(selectors.maleRadio, { force: true });
   }
 
   setUserNumber(number: string): void {
-    userNumberField.type(number);
+    element.type(selectors.userNumberField, number);
   }
 
   setDateOfBirth(date: string): void {
@@ -49,48 +53,50 @@ class Forms extends BasePage {
     const dateToSet = date;
 
     // Click on the input field to open the date picker
-    dobField.click();
+    element.click(selectors.dobField);
 
     // Clear the existing value using invoke
-    dobField.setElementValue("");
+    element.setElementValue(selectors.dobField, "");
 
     // Type the desired date
-    dobField.type(dateToSet);
+
+    element.type(selectors.dobField, dateToSet);
   }
 
   setSubject(subject: string): void {
-    subjectField.type(`${subject}{enter}`);
+    element.type(selectors.subjectField, `${subject}{enter}`);
   }
 
   setHobbies(): void {
-    readingHobbies.check({ force: true });
+    element.check(selectors.readingHobbies, { force: true });
   }
 
   uploadPicture(path: string): void {
-    chooseFileBtn.selectFile(path);
+    element.selectFile(selectors.chooseFileBtn, path);
   }
 
   setAddress(address: string): void {
-    currentAddressField.type(address);
+    element.type(selectors.currentAddressField, address);
   }
 
   setState(state: string): void {
     // Click on the dropdown to open the options
-    stateDropdown.click();
-    stateField.type(`${state}{enter}`);
+
+    element.click(selectors.stateDropdown);
+    element.type(selectors.stateField, `${state}{enter}`);
   }
 
   setCity(city: string): void {
-    cityDropdown.click();
-    cityField.type(`${city}{enter}`);
+    element.click(selectors.cityDropdown);
+    element.type(selectors.cityField, `${city}{enter}`);
   }
 
   clickSubmit(): void {
-    submitBtn.click();
+    element.click(selectors.submitBtn);
   }
 
   verification(string: string): void {
-    assertionElement.verifyElementContains(string);
+    element.verifyElementContains(selectors.assertionElement, string);
   }
 }
 

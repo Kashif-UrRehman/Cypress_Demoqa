@@ -2,65 +2,54 @@ import { ElementsInterface, CheckOptions } from "./elementsInterface";
 import BasePage from "./basePage";
 
 class Elements extends BasePage implements ElementsInterface {
-  private element: string;
-
-  constructor(selector: string) {
-    super();
-    this.element = selector;
-  }
-
-  getElement(): Cypress.Chainable<JQuery<HTMLElement>> {
-    return cy.get(this.element);
-  }
-
-  setElementValue(value: string): void {
+  setElementValue(locator: string, value: string): void {
     try {
-      this.getElement().invoke("val", value);
+      cy.get(locator).invoke("val", value);
     } catch (error) {
       console.error(
-        `Failed to set value for element with selector ${this.element}:`,
+        `Failed to set value for element with selector ${locator}:`,
         (error as Error).message
       );
     }
   }
 
-  click(): void {
+  click(locator: string): void {
     try {
-      this.getElement().click();
+      cy.get(locator).click();
     } catch (error) {
       const errorMessage = (error as Error).message || "Unknown error";
       console.error(`Failed to click element: ${errorMessage}`);
     }
   }
 
-  check(options?: CheckOptions): void {
+  check(locator: string, options?: CheckOptions): void {
     try {
-      this.getElement().check(options);
+      cy.get(locator).check(options);
     } catch (error) {
       console.error("Failed to check element:", (error as Error).message);
     }
   }
 
-  type(text: string) {
+  type(locator: string, text: string) {
     try {
-      this.getElement().type(text);
+      cy.get(locator).type(text);
     } catch (error) {
       console.error("Failed to type text into element:", error);
     }
   }
 
-  clear() {
+  clear(locator: string) {
     try {
-      this.getElement().clear();
+      cy.get(locator).clear();
     } catch (error) {
       console.error("Failed to clear element text:", error);
     }
   }
 
-  shouldHaveText(text: string): boolean {
+  shouldHaveText(locator: string, text: string): boolean {
     let isTextPresent = false;
     try {
-      this.getElement().should("have.text", text);
+      cy.get(locator).should("have.text", text);
       isTextPresent = true;
     } catch (error) {
       console.error(`Element did not have expected text "${text}":`, error);
@@ -68,9 +57,9 @@ class Elements extends BasePage implements ElementsInterface {
     return isTextPresent;
   }
 
-  verifyImageProperties(): void {
+  verifyImageProperties(locator: string): void {
     try {
-      this.getElement().each(($img: any) => {
+      cy.get(locator).each(($img: any) => {
         cy.get($img)
           .should("have.prop", "naturalWidth", 0)
           .and("have.prop", "naturalHeight", 0);
@@ -79,46 +68,51 @@ class Elements extends BasePage implements ElementsInterface {
       console.error("Failed:", error);
     }
   }
-  selectFile(path: string): void {
+  selectFile(locator: string, path: string): void {
     try {
-      this.getElement().selectFile(path);
+      cy.get(locator).selectFile(path);
     } catch (error) {
       console.error(
-        `Failed to select file for element with selector ${this.element}:`,
+        `Failed to select file for element with selector ${locator}:`,
         (error as Error).message
       );
     }
   }
 
-  verifyElementContains(expectedText: string): boolean {
+  verifyElementContains(locator: string, expectedText: string): boolean {
     let isTextPresent = false;
     try {
-      this.getElement().should("contain", expectedText);
+      cy.get(locator).should("contain", expectedText);
       isTextPresent = true;
     } catch (error) {
       console.error(
-        `Assertion failed: Element with selector ${this.element} does not contain "${expectedText}":`,
+        `Assertion failed: Element with selector ${locator} does not contain "${expectedText}":`,
         (error as Error).message
       );
     }
     return isTextPresent;
   }
-  dragAndDrop(targetSelector: string, options?: CheckOptions): void {
+  dragAndDrop(
+    locator: string,
+    targetSelector: string,
+    options?: CheckOptions
+  ): void {
     try {
-      this.getElement().drag(targetSelector, options);
+      cy.get(locator).drag(targetSelector, options);
     } catch (error) {
       console.error(
-        `Drag-and-drop failed: Element with selector ${this.element} could not be dragged to ${targetSelector}:`,
+        `Drag-and-drop failed: Element with selector ${locator} could not be dragged to ${targetSelector}:`,
         (error as Error).message
       );
     }
   }
 
   dragDropWithoutPlugin(
+    locator: string,
     targetSelector: Cypress.Chainable<JQuery<HTMLElement>>
   ): void {
     try {
-      this.getElement().trigger("mousedown", { which: 1 });
+      cy.get(locator).trigger("mousedown", { which: 1 });
 
       // Extract the HTML element from the Cypress.Chainable<JQuery<HTMLElement>>
       targetSelector.then((targetElement) => {
@@ -127,50 +121,54 @@ class Elements extends BasePage implements ElementsInterface {
       });
     } catch (error) {
       console.error(
-        `Drag-and-drop failed: Element with selector ${this.element} could not be dragged to ${targetSelector}:`,
+        `Drag-and-drop failed: Element with selector ${locator} could not be dragged to ${targetSelector}:`,
         (error as Error).message
       );
     }
   }
 
-  triggerMouseOver(): void {
+  triggerMouseOver(locator: string): void {
     try {
-      this.getElement().trigger("mouseover");
+      cy.get(locator).trigger("mouseover");
     } catch (error) {
       console.error(
-        `Mouseover failed for element with selector ${this.element}:`,
+        `Mouseover failed for element with selector ${locator}:`,
         (error as Error).message
       );
     }
   }
 
-  verifyTooltipVisible(customLocator?: string): void {
+  verifyTooltipVisible(locator: string, customLocator?: string): void {
     try {
-      const locator = customLocator || '[role="tooltip"]';
-      cy.get(locator).should("be.visible");
+      const locator1 = customLocator || '[role="tooltip"]';
+      cy.get(locator1).should("be.visible");
     } catch (error) {
       console.error(
-        `Assertion failed: Tooltip for element with selector ${this.element} is not visible:`,
+        `Assertion failed: Tooltip for element with selector ${locator} is not visible:`,
         (error as Error).message
       );
     }
   }
 
-  verifyTooltipContent(expectedContent: string, customLocator?: string): void {
+  verifyTooltipContent(
+    locator: string,
+    expectedContent: string,
+    customLocator?: string
+  ): void {
     try {
-      const locator = customLocator || '[role="tooltip"]';
-      cy.get(locator).should("have.text", expectedContent);
+      const locator1 = customLocator || '[role="tooltip"]';
+      cy.get(locator1).should("have.text", expectedContent);
     } catch (error) {
       console.error(
-        `Assertion failed: Tooltip content for element with selector ${this.element} does not match:`,
+        `Assertion failed: Tooltip content for element with selector ${locator} does not match:`,
         (error as Error).message
       );
     }
   }
 
-  verifyElementExists(): void {
+  verifyElementExists(locator: string): void {
     try {
-      this.getElement().should("exist");
+      cy.get(locator).should("exist");
     } catch (error) {
       console.error(
         `Assertion failed: Element does not exist:`,
@@ -179,41 +177,46 @@ class Elements extends BasePage implements ElementsInterface {
     }
   }
 
-  verifyElementCss(propertyName: string, expectedValue: string): void {
+  verifyElementCss(
+    locator: string,
+    propertyName: string,
+    expectedValue: string
+  ): void {
     try {
-      this.getElement()
+      cy.get(locator)
         .should("have.css", propertyName)
         .and("equal", expectedValue);
     } catch (error) {
       console.error(
-        `CSS property assertion failed: ${propertyName} for element with selector ${this.element} does not match:`,
+        `CSS property assertion failed: ${propertyName} for element with selector ${locator} does not match:`,
         (error as Error).message
       );
     }
   }
 
-  clickElementAtIndex(index: number): void {
+  clickElementAtIndex(locator: string, index: number): void {
     try {
-      const selector = `${this.element}:eq(${index})`;
+      const selector = `${locator}:eq(${index})`;
       cy.get(selector).click();
     } catch (error) {
       console.error(
-        `Click action failed for element at index ${index} with selector ${this.element}:`,
+        `Click action failed for element at index ${index} with selector ${locator}:`,
         (error as Error).message
       );
     }
   }
 
-  verifyTableRowContent(rowIndex: number, expectedData: string[]): void {
+  verifyTableRowContent(
+    locator: string,
+    rowIndex: number,
+    expectedData: string[]
+  ): void {
     try {
       const numberOfCellsToAssert = Math.min(expectedData.length, 6);
 
-      cy.get(
-        `${this.element}:eq(${rowIndex}) .rt-td:lt(${numberOfCellsToAssert})`,
-        {
-          timeout: 3000,
-        }
-      ).each(($td, index) => {
+      cy.get(`${locator}:eq(${rowIndex}) .rt-td:lt(${numberOfCellsToAssert})`, {
+        timeout: 3000,
+      }).each(($td, index) => {
         cy.wrap($td).should("contain", expectedData[index]);
       });
     } catch (error) {

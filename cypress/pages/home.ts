@@ -1,22 +1,25 @@
 import BasePage from "./basePage";
 import Elements from "./elements";
 
-const elements = new Elements('div[class="card mt-4 top-card"]');
+const selector = 'div[class="card mt-4 top-card"]';
+
+const elements = new Elements();
+
 class MainPage extends BasePage {
   clickElement(): void {
-    elements.clickElementAtIndex(0);
+    elements.clickElementAtIndex(selector, 0);
   }
 
   clickForms(): void {
-    elements.clickElementAtIndex(1);
+    elements.clickElementAtIndex(selector, 1);
   }
 
   clickWidgets(): void {
-    elements.clickElementAtIndex(3);
+    elements.clickElementAtIndex(selector, 3);
   }
 
   clickInteractions(): void {
-    elements.clickElementAtIndex(4);
+    elements.clickElementAtIndex(selector, 4);
   }
 }
 

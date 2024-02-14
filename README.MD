@@ -32,9 +32,17 @@ This also repository contains Cypress tests for API testing. The tests cover sce
 
    This test checks the functionality of tooltips, including hovering over a button and verifying tooltip content.
 
-7. **Verify user can drag and drop**
+7. **Verify user can drag and drop with Plugin**
 
-   This test navigates to the Interactions section and verifies the drag-and-drop functionality.
+   This test navigates to the Interactions section and verifies the drag-and-drop functionality with the help of Plugin.
+
+8. **Verify user can drag and drop without Plugin**
+
+   This test navigates to the Interactions section and verifies the drag-and-drop functionality without Plugin.
+
+9. **Verify user can enter multiple records into table**
+
+   This test verifies that a user can multiple new records into a table and asserts the correctness of the entered data.
 
 ## API Test Scenarios
 
@@ -82,6 +90,7 @@ Make sure you have the following installed:
    ```bash
    npm install
    ```
+4. **Create .env file from .env.sample**
 
 ## Running the Tests
 

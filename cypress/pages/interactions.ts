@@ -1,21 +1,31 @@
 import BasePage from "./basePage";
 import "@4tw/cypress-drag-drop";
+import Elements from "./elements";
+
+const selectors = {
+  droppableTab: ".btn:contains('Droppable')",
+  draggableElement: "#draggable",
+  targetDrop: "#droppable",
+};
+
+const elements = new Elements();
 
 class Interactions extends BasePage {
   clickDroppable(): void {
-    cy.contains(".btn", "Droppable").click();
+    elements.click(selectors.droppableTab);
   }
 
   dragDrop(): void {
-    cy.get("#draggable").drag('.drop-box:contains("Drop here")', {
+    elements.dragAndDrop(selectors.draggableElement, selectors.targetDrop, {
       force: true,
     });
   }
 
   dragWithoutLibrary(): void {
-    cy.get("#draggable").trigger("mousedown", { which: 1 });
-    cy.get("#droppable").trigger("mousemove");
-    cy.get("#droppable").trigger("mouseup", { force: true });
+    elements.dragDropWithoutPlugin(
+      selectors.draggableElement,
+      cy.get(selectors.targetDrop)
+    );
   }
 }
 

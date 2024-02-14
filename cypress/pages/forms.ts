@@ -1,28 +1,51 @@
 import BasePage from "./basePage";
+import Elements from "./elements";
+
+const selectors = {
+  practiceForm: ".btn:contains('Practice Form')",
+  firstNameField: "#firstName",
+  lastNameField: "#lastName",
+  userEmailField: "#userEmail",
+  maleRadio: "#gender-radio-1",
+  userNumberField: "#userNumber",
+  dobField: "#dateOfBirthInput",
+  subjectField: ".subjects-auto-complete__value-container",
+  readingHobbies: "#hobbies-checkbox-2",
+  chooseFileBtn: "#uploadPicture",
+  currentAddressField: "#currentAddress",
+  stateDropdown: "#state",
+  stateField: "#react-select-3-input",
+  cityDropdown: "#city",
+  cityField: "#react-select-4-input",
+  submitBtn: "#submit",
+  assertionElement: "#example-modal-sizes-title-lg",
+};
+
+const element = new Elements();
 
 class Forms extends BasePage {
   clickPracticeForm(): void {
-    cy.contains(".btn", "Practice Form").click();
+    element.click(selectors.practiceForm);
   }
 
   setFirstName(firstName: string): void {
-    cy.get("#firstName").type(firstName);
+    element.type(selectors.firstNameField, firstName);
   }
 
   setLastName(lastName: string): void {
-    cy.get("#lastName").type(lastName);
+    element.type(selectors.lastNameField, lastName);
   }
 
   setEmail(email: string): void {
-    cy.get("#userEmail").type(email);
+    element.type(selectors.userEmailField, email);
   }
 
   setGenderMale(): void {
-    cy.get("#gender-radio-1").check({ force: true });
+    element.check(selectors.maleRadio, { force: true });
   }
 
   setUserNumber(number: string): void {
-    cy.get("#userNumber").type(number);
+    element.type(selectors.userNumberField, number);
   }
 
   setDateOfBirth(date: string): void {
@@ -30,53 +53,50 @@ class Forms extends BasePage {
     const dateToSet = date;
 
     // Click on the input field to open the date picker
-    cy.get("#dateOfBirthInput").click();
+    element.click(selectors.dobField);
 
     // Clear the existing value using invoke
-    cy.get("#dateOfBirthInput").invoke("val", "");
+    element.setElementValue(selectors.dobField, "");
 
     // Type the desired date
-    cy.get("#dateOfBirthInput").type(dateToSet);
 
-    cy.get("body").click();
+    element.type(selectors.dobField, dateToSet);
   }
 
   setSubject(subject: string): void {
-    cy.get(".subjects-auto-complete__value-container").type(
-      `${subject}{enter}`
-    );
+    element.type(selectors.subjectField, `${subject}{enter}`);
   }
 
   setHobbies(): void {
-    cy.get("#hobbies-checkbox-2").check({ force: true });
+    element.check(selectors.readingHobbies, { force: true });
   }
 
   uploadPicture(path: string): void {
-    cy.get("#uploadPicture").selectFile(path);
+    element.selectFile(selectors.chooseFileBtn, path);
   }
 
   setAddress(address: string): void {
-    cy.get("#currentAddress").type(address);
+    element.type(selectors.currentAddressField, address);
   }
 
   setState(state: string): void {
-    cy.get("#state").click(); // Click on the dropdown to open the options
+    // Click on the dropdown to open the options
 
-    cy.get("#react-select-3-input").type(`${state}{enter}`);
+    element.click(selectors.stateDropdown);
+    element.type(selectors.stateField, `${state}{enter}`);
   }
 
   setCity(city: string): void {
-    cy.get("#city").click();
-
-    cy.get("#react-select-4-input").type(`${city}{enter}`);
+    element.click(selectors.cityDropdown);
+    element.type(selectors.cityField, `${city}{enter}`);
   }
 
   clickSubmit(): void {
-    cy.get("#submit").click();
+    element.click(selectors.submitBtn);
   }
 
-  verification(): void {
-    cy.get("#example-modal-sizes-title-lg").should("contain", "Thanks");
+  verification(string: string): void {
+    element.verifyElementContains(selectors.assertionElement, string);
   }
 }
 

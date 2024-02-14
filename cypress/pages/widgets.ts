@@ -1,44 +1,52 @@
 import BasePage from "./basePage";
+import Elements from "./elements";
+
+const selectors = {
+  progressBarTab: ".btn:contains('Progress Bar')",
+  toolTipsTab: ".btn:contains('Tool Tips')",
+  hoverBtn: "#toolTipButton",
+  progressBar: ".progress-bar",
+  startBarBtn: ".mt-3",
+};
+
+const elements = new Elements();
 
 class Widgets extends BasePage {
   clickProgressBarTab(): void {
-    cy.contains(".btn", "Progress Bar").click();
+    elements.click(selectors.progressBarTab);
   }
 
   clickToolTipsTab(): void {
-    cy.contains(".btn", "Tool Tips").click();
+    elements.click(selectors.toolTipsTab);
   }
 
   hoverButton(): void {
-    // Hover over the button
-    cy.get("#toolTipButton").trigger("mouseover");
+    elements.triggerMouseOver(selectors.hoverBtn);
   }
 
   checkToolTip(): void {
-    // Wait for the tooltip to appear (adjust the timeout if needed)
-    cy.get('[role="tooltip"]').should("be.visible");
+    elements.verifyTooltipVisible(selectors.hoverBtn);
   }
 
   verifyTipContent(): void {
-    // Assert the tooltip content
-    cy.get('[role="tooltip"]').should(
-      "have.text",
-      "You hovered over the Button"
-    );
+    const tipText = "You hovered over the Button";
+    elements.verifyTooltipContent(selectors.hoverBtn, tipText);
   }
 
   verifyProgressBar(): void {
-    cy.get(".progress-bar").should("exist");
+    elements.verifyElementExists(selectors.progressBar);
   }
 
   clickStartButton(): void {
-    cy.get(".mt-3").click();
+    elements.click(selectors.startBarBtn);
+  }
+
+  verifyBarFullProgress() {
+    cy.get(".progress-bar", { timeout: 20000 }).should("contain", "100%");
   }
 
   verifyBarColor(color: string): void {
-    cy.get(".progress-bar")
-      .should("have.css", "background-color")
-      .and("equal", color);
+    elements.verifyElementCss(selectors.progressBar, "background-color", color);
   }
 }
 

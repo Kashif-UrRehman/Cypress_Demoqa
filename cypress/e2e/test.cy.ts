@@ -1,7 +1,7 @@
 ///<reference types="cypress"/>
 
 import MainPage from "../pages/home";
-import Elements from "../pages/elements";
+import ElementsPage from "../pages/elementsPage";
 import Forms from "../pages/forms";
 import Widgets from "../pages/widgets";
 import Interactions from "../pages/interactions";
@@ -10,7 +10,7 @@ describe("Assignment", () => {
   /* eslint-disable cypress/no-unnecessary-waiting */
   const url: string = "https://demoqa.com";
   const home: MainPage = new MainPage();
-  const elements: Elements = new Elements();
+  const elements: ElementsPage = new ElementsPage();
   const forms: Forms = new Forms();
   const widgets: Widgets = new Widgets();
   const interactions: Interactions = new Interactions();
@@ -18,8 +18,7 @@ describe("Assignment", () => {
   let userData: any; // Use a more specific type if possible
 
   Cypress.on("uncaught:exception", (_err, _runnable) => {
-    // returning false here prevents Cypress from
-    // failing the test
+    // returning false here prevents Cypress from failing the test
     return false;
   });
 
@@ -95,7 +94,7 @@ describe("Assignment", () => {
     forms.setCity(userData.city);
     forms.clickSubmit();
 
-    forms.verification();
+    forms.verification("Thanks");
   });
 
   it("Verify the Progress Bar", () => {
@@ -104,8 +103,8 @@ describe("Assignment", () => {
 
     widgets.verifyProgressBar();
     widgets.clickStartButton();
-    cy.wait(19000);
 
+    widgets.verifyBarFullProgress();
     widgets.verifyBarColor(userData.greenColor);
   });
 
@@ -156,7 +155,7 @@ describe("Assignment", () => {
 
         // cy.log(`Test iteration ${index + 1}`);
         // helper method for assertions
-        cy.wait(3000);
+
         elements.assertTableRowContent(index + 3, [
           data.firstName,
           data.lastName,

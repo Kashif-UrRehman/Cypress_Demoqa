@@ -88,7 +88,7 @@ describe("Assignment", () => {
     forms.setDateOfBirth(userData.dateOfBirth);
     forms.setSubject(userData.subjects);
     forms.setHobbies();
-    forms.uploadPicture("cypress\\fixtures\\id.jpg");
+    forms.uploadPicture("cypress/fixtures/id.jpg");
     forms.setAddress(userData.currentAddress);
     forms.setState(userData.state);
     forms.setCity(userData.city);

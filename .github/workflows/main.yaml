@@ -8,7 +8,6 @@ on:
 env:
   USER: ${{ secrets.USER }}
   PASSWORD: ${{ secrets.PASSWORD }}
-  TOKEN: ${{ secrets.TOKEN }}
 
 jobs:
   build-and-test:

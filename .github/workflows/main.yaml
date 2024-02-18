@@ -19,5 +19,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run Cypress tests
-        run: npm test
+      - name: Run Cypress tests and generate report
+        run: npm test -- --reporter mochawesome --reporter-options "reportDir=cypress/reports/mochawesome"
+
+      - name: Upload report as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: mochawesome-report
+          path: cypress/reports/mochawesome

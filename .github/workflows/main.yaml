@@ -21,3 +21,10 @@ jobs:
 
       - name: Run Cypress tests
         run: npm test
+
+      - name: Uploding Arifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: my-artifact
+          path: cypress/reports/html

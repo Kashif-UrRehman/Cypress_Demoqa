@@ -1,11 +1,18 @@
-import BasePage from "./basePage";
-import Elements from "./elements";
+import Elements from "../framework/elements";
 
 const selector = 'div[class="card mt-4 top-card"]';
 
 const elements = new Elements();
 
-class MainPage extends BasePage {
+export class MainPage {
+  protected getHeaderElement() {
+    return cy.get("header");
+  }
+
+  protected getFooterElement() {
+    return cy.get("footer");
+  }
+
   clickElement(): void {
     elements.clickElementAtIndex(selector, 0);
   }
@@ -22,5 +29,3 @@ class MainPage extends BasePage {
     elements.clickElementAtIndex(selector, 4);
   }
 }
-
-export default MainPage;

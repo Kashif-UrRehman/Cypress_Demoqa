@@ -14,4 +14,7 @@
 
 .idea/
 .env
+/allure-report/
+/runner-results/
+/allure-results/
 

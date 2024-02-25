@@ -18,5 +18,6 @@
   "state": "NCR",
   "city": "Delhi",
 
-  "greenColor": "rgb(40, 167, 69)"
+  "greenColor": "rgb(40, 167, 69)",
+  "dropBoxColor": "rgb(70, 130, 180)"
 }

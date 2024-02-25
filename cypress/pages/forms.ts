@@ -1,5 +1,4 @@
-import BasePage from "./basePage";
-import Elements from "./elements";
+import Elements from "../framework/elements";
 
 const selectors = {
   practiceForm: ".btn:contains('Practice Form')",
@@ -23,7 +22,7 @@ const selectors = {
 
 const element = new Elements();
 
-class Forms extends BasePage {
+export class Forms {
   clickPracticeForm(): void {
     element.click(selectors.practiceForm);
   }
@@ -99,5 +98,3 @@ class Forms extends BasePage {
     element.verifyElementContains(selectors.assertionElement, string);
   }
 }
-
-export default Forms;

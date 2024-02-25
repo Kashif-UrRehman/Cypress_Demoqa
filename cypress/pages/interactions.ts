@@ -1,6 +1,5 @@
-import BasePage from "./basePage";
 import "@4tw/cypress-drag-drop";
-import Elements from "./elements";
+import Elements from "../framework/elements";
 
 const selectors = {
   droppableTab: ".btn:contains('Droppable')",
@@ -10,7 +9,7 @@ const selectors = {
 
 const elements = new Elements();
 
-class Interactions extends BasePage {
+export class Interactions {
   clickDroppable(): void {
     elements.click(selectors.droppableTab);
   }
@@ -27,6 +26,8 @@ class Interactions extends BasePage {
       cy.get(selectors.targetDrop)
     );
   }
-}
 
-export default Interactions;
+  verifyDropBoxColor(color: string): void {
+    elements.verifyElementCss(selectors.targetDrop, "background-color", color);
+  }
+}

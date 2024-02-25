@@ -1,5 +1,4 @@
-import BasePage from "./basePage";
-import Elements from "./elements";
+import Elements from "../framework/elements";
 
 const selectors = {
   webTables: ".btn:contains('Web Tables')",
@@ -18,7 +17,7 @@ const selectors = {
 
 const element = new Elements();
 
-class ElementsPage extends BasePage {
+export class ElementsPage {
   clickWebTables(): void {
     element.click(selectors.webTables);
   }
@@ -66,13 +65,12 @@ class ElementsPage extends BasePage {
     cy.get(`#edit-record-${rowNo}`).click();
   }
 
-  verifyBrokenImages(): void {
-    element.verifyImageProperties(selectors.imageElement);
+  verifyBrokenImages(): boolean {
+    const result = element.verifyImageProperties(selectors.imageElement);
+    return result;
   }
 
   assertTableRowContent(rowIndex: number, expectedData: string[]): void {
     element.verifyTableRowContent(selectors.tableRow, rowIndex, expectedData);
   }
 }
-
-export default ElementsPage;

@@ -1,10 +1,12 @@
 import { ElementsInterface, CheckOptions } from "./elementsInterface";
-import BasePage from "./basePage";
 
-class Elements extends BasePage implements ElementsInterface {
+class Elements implements ElementsInterface {
+  getElement(locator: string): Cypress.Chainable<JQuery<HTMLElement>> {
+    return cy.get(locator);
+  }
   setElementValue(locator: string, value: string): boolean {
     try {
-      cy.get(locator).invoke("val", value);
+      this.getElement(locator).invoke("val", value);
       return true;
     } catch (error) {
       console.error(
@@ -17,7 +19,7 @@ class Elements extends BasePage implements ElementsInterface {
 
   click(locator: string): boolean {
     try {
-      cy.get(locator).click();
+      this.getElement(locator).click();
       return true;
     } catch (error) {
       const errorMessage = (error as Error).message || "Unknown error";
@@ -28,7 +30,7 @@ class Elements extends BasePage implements ElementsInterface {
 
   check(locator: string, options?: CheckOptions): boolean {
     try {
-      cy.get(locator).check(options);
+      this.getElement(locator).check(options);
       return true;
     } catch (error) {
       console.error("Failed to check element:", (error as Error).message);
@@ -38,7 +40,7 @@ class Elements extends BasePage implements ElementsInterface {
 
   type(locator: string, text: string): boolean {
     try {
-      cy.get(locator).type(text);
+      this.getElement(locator).type(text);
       return true;
     } catch (error) {
       console.error("Failed to type text into element:", error);
@@ -48,7 +50,7 @@ class Elements extends BasePage implements ElementsInterface {
 
   clear(locator: string): boolean {
     try {
-      cy.get(locator).clear();
+      this.getElement(locator).clear();
       return true;
     } catch (error) {
       console.error("Failed to clear element text:", error);
@@ -112,7 +114,7 @@ class Elements extends BasePage implements ElementsInterface {
     options?: CheckOptions
   ): boolean {
     try {
-      cy.get(locator).drag(targetSelector, options);
+      cy.get(locator, { timeout: 5000 }).drag(targetSelector, options);
 
       return true;
     } catch (error) {
@@ -212,7 +214,7 @@ class Elements extends BasePage implements ElementsInterface {
     expectedValue: string
   ): boolean {
     try {
-      cy.get(locator)
+      cy.get(locator, { timeout: 5000 })
         .should("have.css", propertyName)
         .and("equal", expectedValue);
       return true;

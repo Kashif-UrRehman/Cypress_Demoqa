@@ -1,5 +1,4 @@
-import BasePage from "./basePage";
-import Elements from "./elements";
+import Elements from "../framework/elements";
 
 const selectors = {
   progressBarTab: ".btn:contains('Progress Bar')",
@@ -11,7 +10,7 @@ const selectors = {
 
 const elements = new Elements();
 
-class Widgets extends BasePage {
+export class Widgets {
   clickProgressBarTab(): void {
     elements.click(selectors.progressBarTab);
   }
@@ -42,12 +41,10 @@ class Widgets extends BasePage {
   }
 
   verifyBarFullProgress() {
-    cy.get(".progress-bar", { timeout: 20000 }).should("contain", "100%");
+    cy.get(".progress-bar", { timeout: 22000 }).should("contain", "100%");
   }
 
   verifyBarColor(color: string): void {
     elements.verifyElementCss(selectors.progressBar, "background-color", color);
   }
 }
-
-export default Widgets;

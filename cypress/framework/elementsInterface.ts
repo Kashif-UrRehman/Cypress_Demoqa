@@ -1,4 +1,6 @@
 export interface ElementsInterface {
+  getElement(locator: string): Cypress.Chainable<JQuery<HTMLElement>>;
+
   setElementValue(locator: string, value: string): boolean;
 
   click(locator: string): boolean;

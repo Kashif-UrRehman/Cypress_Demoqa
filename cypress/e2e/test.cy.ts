@@ -1,10 +1,10 @@
 ///<reference types="cypress"/>
 
-import MainPage from "../pages/home";
-import ElementsPage from "../pages/elementsPage";
-import Forms from "../pages/forms";
-import Widgets from "../pages/widgets";
-import Interactions from "../pages/interactions";
+import { MainPage } from "../pages/home";
+import { ElementsPage } from "../pages/elementsPage";
+import { Forms } from "../pages/forms";
+import { Widgets } from "../pages/widgets";
+import { Interactions } from "../pages/interactions";
 
 describe("Assignment", () => {
   /* eslint-disable cypress/no-unnecessary-waiting */
@@ -72,7 +72,8 @@ describe("Assignment", () => {
   it("verify broken images", () => {
     home.clickElement();
     elements.clickBrokenLinks();
-    elements.verifyBrokenImages();
+    //assertions
+    cy.wrap(elements.verifyBrokenImages()).should("be.true");
   });
 
   it("Verify user can submit the form", () => {
@@ -88,12 +89,13 @@ describe("Assignment", () => {
     forms.setDateOfBirth(userData.dateOfBirth);
     forms.setSubject(userData.subjects);
     forms.setHobbies();
-    forms.uploadPicture("cypress\\fixtures\\id.jpg");
+    forms.uploadPicture("cypress/fixtures/id.jpg");
     forms.setAddress(userData.currentAddress);
     forms.setState(userData.state);
     forms.setCity(userData.city);
     forms.clickSubmit();
 
+    //assertions
     forms.verification("Thanks");
   });
 
@@ -125,8 +127,9 @@ describe("Assignment", () => {
   it("Verify user can drag and drop", () => {
     home.clickInteractions();
     interactions.clickDroppable();
-    cy.wait(5000);
     interactions.dragDrop();
+    // assertions
+    interactions.verifyDropBoxColor(userData.dropBoxColor);
   });
 
   it("Drag and drop without library", () => {
@@ -142,7 +145,7 @@ describe("Assignment", () => {
 
       // Iterate over each data entry
       formData.forEach((data: any, index: any) => {
-        // Your test logic here using the 'data' object
+        // test logic here using the 'data' object
 
         elements.clickAdd();
         elements.setFirstName(data.firstName);

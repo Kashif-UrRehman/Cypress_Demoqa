@@ -1,19 +1,21 @@
 export interface ElementsInterface {
-  setElementValue(locator: string, value: string): void;
+  getElement(locator: string): Cypress.Chainable<JQuery<HTMLElement>>;
 
-  click(locator: string): void;
+  setElementValue(locator: string, value: string): boolean;
 
-  check(locator: string, options?: CheckOptions): void;
+  click(locator: string): boolean;
 
-  type(locator: string, text: string): void;
+  check(locator: string, options?: CheckOptions): boolean;
 
-  clear(locator: string): void;
+  type(locator: string, text: string): boolean;
+
+  clear(locator: string): boolean;
 
   shouldHaveText(locator: string, text: string): boolean;
 
-  verifyImageProperties(locator: string): void;
+  verifyImageProperties(locator: string): boolean;
 
-  selectFile(locator: string, path: string): void;
+  selectFile(locator: string, path: string): boolean;
 
   verifyElementContains(selector: string, expectedText: string): boolean;
 
@@ -21,38 +23,38 @@ export interface ElementsInterface {
     locator: string,
     targetSelector: string,
     options?: CheckOptions
-  ): void;
+  ): boolean;
 
   dragDropWithoutPlugin(
     locator: string,
     targetSelector: Cypress.Chainable<JQuery<HTMLElement>>
-  ): void;
+  ): boolean;
 
-  triggerMouseOver(locator: string): void;
+  triggerMouseOver(locator: string): boolean;
 
-  verifyTooltipVisible(locator: string): void;
+  verifyTooltipVisible(locator: string): boolean;
 
   verifyTooltipContent(
     locator: string,
     expectedContent: string,
     customLocator?: string
-  ): void;
+  ): boolean;
 
-  verifyElementExists(locator: string): void;
+  verifyElementExists(locator: string): boolean;
 
   verifyElementCss(
     locator: string,
     propertyName: string,
     expectedValue: string
-  ): void;
+  ): boolean;
 
-  clickElementAtIndex(locator: string, index: number): void;
+  clickElementAtIndex(locator: string, index: number): boolean;
 
   verifyTableRowContent(
     locator: string,
     rowIndex: number,
     expectedData: string[]
-  ): void;
+  ): boolean;
 }
 
 export interface CheckOptions {

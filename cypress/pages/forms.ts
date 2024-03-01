@@ -1,5 +1,4 @@
-import BasePage from "./basePage";
-import Elements from "./elements";
+import { ELEMENT } from "../framework/elements";
 
 const selectors = {
   practiceForm: ".btn:contains('Practice Form')",
@@ -21,31 +20,29 @@ const selectors = {
   assertionElement: "#example-modal-sizes-title-lg",
 };
 
-const element = new Elements();
-
-class Forms extends BasePage {
+export class Forms {
   clickPracticeForm(): void {
-    element.click(selectors.practiceForm);
+    ELEMENT.click(selectors.practiceForm);
   }
 
   setFirstName(firstName: string): void {
-    element.type(selectors.firstNameField, firstName);
+    ELEMENT.type(selectors.firstNameField, firstName);
   }
 
   setLastName(lastName: string): void {
-    element.type(selectors.lastNameField, lastName);
+    ELEMENT.type(selectors.lastNameField, lastName);
   }
 
   setEmail(email: string): void {
-    element.type(selectors.userEmailField, email);
+    ELEMENT.type(selectors.userEmailField, email);
   }
 
   setGenderMale(): void {
-    element.check(selectors.maleRadio, { force: true });
+    ELEMENT.check(selectors.maleRadio, { force: true });
   }
 
   setUserNumber(number: string): void {
-    element.type(selectors.userNumberField, number);
+    ELEMENT.type(selectors.userNumberField, number);
   }
 
   setDateOfBirth(date: string): void {
@@ -53,51 +50,49 @@ class Forms extends BasePage {
     const dateToSet = date;
 
     // Click on the input field to open the date picker
-    element.click(selectors.dobField);
+    ELEMENT.click(selectors.dobField);
 
     // Clear the existing value using invoke
-    element.setElementValue(selectors.dobField, "");
+    ELEMENT.setElementValue(selectors.dobField, "");
 
     // Type the desired date
 
-    element.type(selectors.dobField, dateToSet);
+    ELEMENT.type(selectors.dobField, dateToSet);
   }
 
   setSubject(subject: string): void {
-    element.type(selectors.subjectField, `${subject}{enter}`);
+    ELEMENT.type(selectors.subjectField, `${subject}{enter}`);
   }
 
   setHobbies(): void {
-    element.check(selectors.readingHobbies, { force: true });
+    ELEMENT.check(selectors.readingHobbies, { force: true });
   }
 
   uploadPicture(path: string): void {
-    element.selectFile(selectors.chooseFileBtn, path);
+    ELEMENT.selectFile(selectors.chooseFileBtn, path);
   }
 
   setAddress(address: string): void {
-    element.type(selectors.currentAddressField, address);
+    ELEMENT.type(selectors.currentAddressField, address);
   }
 
   setState(state: string): void {
     // Click on the dropdown to open the options
 
-    element.click(selectors.stateDropdown);
-    element.type(selectors.stateField, `${state}{enter}`);
+    ELEMENT.click(selectors.stateDropdown);
+    ELEMENT.type(selectors.stateField, `${state}{enter}`);
   }
 
   setCity(city: string): void {
-    element.click(selectors.cityDropdown);
-    element.type(selectors.cityField, `${city}{enter}`);
+    ELEMENT.click(selectors.cityDropdown);
+    ELEMENT.type(selectors.cityField, `${city}{enter}`);
   }
 
   clickSubmit(): void {
-    element.click(selectors.submitBtn);
+    ELEMENT.click(selectors.submitBtn);
   }
 
   verification(string: string): void {
-    element.verifyElementContains(selectors.assertionElement, string);
+    ELEMENT.verifyElementContains(selectors.assertionElement, string);
   }
 }
-
-export default Forms;

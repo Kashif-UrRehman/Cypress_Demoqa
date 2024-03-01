@@ -1,6 +1,5 @@
-import BasePage from "./basePage";
 import "@4tw/cypress-drag-drop";
-import Elements from "./elements";
+import { ELEMENT } from "../framework/elements";
 
 const selectors = {
   droppableTab: ".btn:contains('Droppable')",
@@ -8,25 +7,25 @@ const selectors = {
   targetDrop: "#droppable",
 };
 
-const elements = new Elements();
-
-class Interactions extends BasePage {
+export class Interactions {
   clickDroppable(): void {
-    elements.click(selectors.droppableTab);
+    ELEMENT.click(selectors.droppableTab);
   }
 
   dragDrop(): void {
-    elements.dragAndDrop(selectors.draggableElement, selectors.targetDrop, {
+    ELEMENT.dragAndDrop(selectors.draggableElement, selectors.targetDrop, {
       force: true,
     });
   }
 
   dragWithoutLibrary(): void {
-    elements.dragDropWithoutPlugin(
+    ELEMENT.dragDropWithoutPlugin(
       selectors.draggableElement,
       cy.get(selectors.targetDrop)
     );
   }
-}
 
-export default Interactions;
+  verifyDropBoxColor(color: string): void {
+    ELEMENT.verifyElementCss(selectors.targetDrop, "background-color", color);
+  }
+}

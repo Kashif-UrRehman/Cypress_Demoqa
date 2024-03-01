@@ -1,5 +1,4 @@
-import BasePage from "./basePage";
-import Elements from "./elements";
+import { ELEMENT } from "../framework/elements";
 
 const selectors = {
   webTables: ".btn:contains('Web Tables')",
@@ -16,63 +15,60 @@ const selectors = {
   tableRow: ".rt-tr-group",
 };
 
-const element = new Elements();
-
-class ElementsPage extends BasePage {
+export class ElementsPage {
   clickWebTables(): void {
-    element.click(selectors.webTables);
+    ELEMENT.click(selectors.webTables);
   }
 
   clickBrokenLinks(): void {
-    element.click(selectors.brokenLinks);
+    ELEMENT.click(selectors.brokenLinks);
   }
 
   clickAdd(): void {
-    element.click(selectors.addRecordBtn);
+    ELEMENT.click(selectors.addRecordBtn);
   }
 
   setFirstName(firstName: string): void {
-    element.clear(selectors.firstNameField);
-    element.type(selectors.firstNameField, firstName);
+    ELEMENT.clear(selectors.firstNameField);
+    ELEMENT.type(selectors.firstNameField, firstName);
   }
 
   setLastName(lastName: string): void {
-    element.clear(selectors.lastNameField);
-    element.type(selectors.lastNameField, lastName);
+    ELEMENT.clear(selectors.lastNameField);
+    ELEMENT.type(selectors.lastNameField, lastName);
   }
 
   setEmail(email: string): void {
-    element.clear(selectors.userEmailField);
-    element.type(selectors.userEmailField, email);
+    ELEMENT.clear(selectors.userEmailField);
+    ELEMENT.type(selectors.userEmailField, email);
   }
 
   setAge(age: string): void {
-    element.type(selectors.ageField, age);
+    ELEMENT.type(selectors.ageField, age);
   }
 
   setSalary(salary: string): void {
-    element.type(selectors.salaryField, salary);
+    ELEMENT.type(selectors.salaryField, salary);
   }
 
   setDepartment(department: string): void {
-    element.type(selectors.departmentField, department);
+    ELEMENT.type(selectors.departmentField, department);
   }
 
   clickSubmit(): void {
-    element.click(selectors.submitField);
+    ELEMENT.click(selectors.submitField);
   }
 
   clickEditRow(rowNo: number): void {
     cy.get(`#edit-record-${rowNo}`).click();
   }
 
-  verifyBrokenImages(): void {
-    element.verifyImageProperties(selectors.imageElement);
+  verifyBrokenImages(): boolean {
+    const result = ELEMENT.verifyImageProperties(selectors.imageElement);
+    return result;
   }
 
   assertTableRowContent(rowIndex: number, expectedData: string[]): void {
-    element.verifyTableRowContent(selectors.tableRow, rowIndex, expectedData);
+    ELEMENT.verifyTableRowContent(selectors.tableRow, rowIndex, expectedData);
   }
 }
-
-export default ElementsPage;

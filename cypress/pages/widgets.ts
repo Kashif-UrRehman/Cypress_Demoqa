@@ -1,5 +1,4 @@
-import BasePage from "./basePage";
-import Elements from "./elements";
+import { ELEMENT } from "../framework/elements";
 
 const selectors = {
   progressBarTab: ".btn:contains('Progress Bar')",
@@ -9,45 +8,41 @@ const selectors = {
   startBarBtn: ".mt-3",
 };
 
-const elements = new Elements();
-
-class Widgets extends BasePage {
+export class Widgets {
   clickProgressBarTab(): void {
-    elements.click(selectors.progressBarTab);
+    ELEMENT.click(selectors.progressBarTab);
   }
 
   clickToolTipsTab(): void {
-    elements.click(selectors.toolTipsTab);
+    ELEMENT.click(selectors.toolTipsTab);
   }
 
   hoverButton(): void {
-    elements.triggerMouseOver(selectors.hoverBtn);
+    ELEMENT.triggerMouseOver(selectors.hoverBtn);
   }
 
   checkToolTip(): void {
-    elements.verifyTooltipVisible(selectors.hoverBtn);
+    ELEMENT.verifyTooltipVisible(selectors.hoverBtn);
   }
 
   verifyTipContent(): void {
     const tipText = "You hovered over the Button";
-    elements.verifyTooltipContent(selectors.hoverBtn, tipText);
+    ELEMENT.verifyTooltipContent(selectors.hoverBtn, tipText);
   }
 
   verifyProgressBar(): void {
-    elements.verifyElementExists(selectors.progressBar);
+    ELEMENT.verifyElementExists(selectors.progressBar);
   }
 
   clickStartButton(): void {
-    elements.click(selectors.startBarBtn);
+    ELEMENT.click(selectors.startBarBtn);
   }
 
   verifyBarFullProgress() {
-    cy.get(".progress-bar", { timeout: 20000 }).should("contain", "100%");
+    cy.get(".progress-bar", { timeout: 22000 }).should("contain", "100%");
   }
 
   verifyBarColor(color: string): void {
-    elements.verifyElementCss(selectors.progressBar, "background-color", color);
+    ELEMENT.verifyElementCss(selectors.progressBar, "background-color", color);
   }
 }
-
-export default Widgets;

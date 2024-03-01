@@ -6,21 +6,29 @@
   "scripts": {
     "test": "cypress run",
     "lint": "eslint .",
-    "cypress:dashboard": "npx cypress run --record --key c73a9637-a542-4d33-bcba-90706741c086"
+    "cy:parallel": "cypress-parallel  -d cypress/e2e/ -t 2 -s test-allure",
+    "cypress:dashboard": "npx cypress run --record --key c73a9637-a542-4d33-bcba-90706741c086",
+    "test-allure": "npx cypress run --env allure=true",
+    "allure:report": "allure generate allure-results --clean -o allure-report && allure open allure-report",
+    "execute:report": "npm run test-allure && npm run allure:report"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "cypress": "^13.6.3"
-  },
   "devDependencies": {
     "@4tw/cypress-drag-drop": "^2.2.5",
-    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@shelex/cypress-allure-plugin": "^2.40.1",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.20.0",
-    "dotenv": "^16.4.2",
-    "eslint": "^8.56.0",
+    "allure-commandline": "^2.27.0",
+    "cypress": "^13.6.6",
+    "cypress-mochawesome-reporter": "^3.8.2",
+    "cypress-parallel": "^0.14.0",
+    "dotenv": "^16.4.5",
+    "eslint": "^8.57.0",
     "eslint-plugin-cypress": "^2.15.1",
+    "mocha": "^10.3.0",
+    "mocha-allure-reporter": "^1.4.0",
     "typescript": "^5.3.3"
   }
 }

@@ -1,10 +1,10 @@
-# Cypress DemoQA Assignment
+# Cypress DemoQA
 
 ## Introduction
 
 This repository contains a Cypress test suite for the DemoQA website. The suite covers various scenarios to validate the functionality of the application.
 
-This also repository contains Cypress tests for API testing. The tests cover scenarios related to user account creation, adding a list of books, and removing one of the added books.
+This repository also contains Cypress tests for API testing. The tests cover scenarios related to get token, user account creation, adding a list of books, and removing one of the added books.
 
 ## Web Test Scenarios
 
@@ -46,22 +46,39 @@ This also repository contains Cypress tests for API testing. The tests cover sce
 
 ## API Test Scenarios
 
-1. **Creation of user account:**
+1. **Get Token**
 
-   - Endpoint: `POST /Account/v1/User`
-   - Description: Verify the successful creation of a user account.
-   - Assertions: Check the HTTP status code (201) and the username in the response.
+   - Description: This test verifies the generation of an authentication token by sending a POST request to the specified endpoint.
+   - Endpoint: `https://demoqa.com/Account/v1/GenerateToken`
+   - Expected Behavior:
+     - Response status is `Success`.
+     - Authentication token is received and stored for future requests.
 
-2. **Add a list of books:**
+2. **Creation of User Account**
 
-   - Endpoint: `POST /BookStore/v1/Books`
-   - Description: Verify the ability to add a list of books.
-   - Assertions: Check the HTTP status code (201) for successful addition.
+   - Description: This test verifies the creation of a user account by sending a POST request to the specified endpoint.
+   - Endpoint: `https://demoqa.com/Account/v1/User`
+   - Expected Behavior:
+     - If the user account is successfully created, the response status is `201` and the username matches the provided user.
+     - If the user already exists, the response status is `406` and an appropriate error message is received.
 
-3. **Remove one of the added books:**
-   - Endpoint: `DELETE /BookStore/v1/Book`
-   - Description: Verify the successful removal of one of the added books.
-   - Assertions: Check the HTTP status code (204) for successful removal.
+3. **Add a List of Books**
+
+   - Description: This test verifies the addition of books to the bookstore by sending a POST request to the specified endpoint.
+   - Endpoint: `https://demoqa.com/BookStore/v1/Books`
+   - Expected Behavior:
+     - The response status is `201`, indicating successful addition of books to the bookstore.
+
+4. **Remove One of the Added Books**
+   - Description: This test verifies the removal of a book from the bookstore by sending a DELETE request to the specified endpoint.
+   - Endpoint: `https://demoqa.com/BookStore/v1/Book`
+   - Expected Behavior:
+     - The response status is `204`, indicating successful removal of the book from the bookstore.
+
+### Environment Variables
+
+- `USER`: Username for authentication.
+- `PASSWORD`: Password for authentication.
 
 ## Test Data
 

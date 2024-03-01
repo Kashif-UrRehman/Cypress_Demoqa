@@ -4,12 +4,30 @@ describe("Api Testing", () => {
   let requestBody: any;
   const USER = Cypress.env("USER");
   const PASSWORD = Cypress.env("PASSWORD");
-  const TOKEN = Cypress.env("TOKEN");
+  // const TOKEN = Cypress.env("TOKEN");
+  let TOKEN: string;
   before(() => {
     // Load fixture data before tests
 
     cy.fixture("api_data").then((data: any) => {
       requestBody = data;
+    });
+  });
+
+  it("Get Token", () => {
+    cy.request({
+      method: "POST",
+      url: "https://demoqa.com/Account/v1/GenerateToken",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: {
+        userName: USER,
+        password: PASSWORD,
+      },
+    }).then((res) => {
+      expect(res.body.status).to.equal("Success");
+      TOKEN = res.body.token;
     });
   });
 

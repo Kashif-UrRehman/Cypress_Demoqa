@@ -1,0 +1,30 @@
+name: Cypress Test
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+env:
+  USER: ${{ secrets.USER }}
+  PASSWORD: ${{ secrets.PASSWORD }}
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Cypress tests
+        run: npm test
+
+      - name: Uploding Arifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: my-artifact
+          path: cypress/reports/html

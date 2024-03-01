@@ -114,7 +114,7 @@ class Elements implements ElementsInterface {
     options?: CheckOptions
   ): boolean {
     try {
-      cy.get(locator, { timeout: 5000 }).drag(targetSelector, options);
+      cy.get(locator, { timeout: 10000 }).drag(targetSelector, options);
 
       return true;
     } catch (error) {
@@ -265,4 +265,4 @@ class Elements implements ElementsInterface {
   }
 }
 
-export default Elements;
+export const ELEMENT = new Elements();

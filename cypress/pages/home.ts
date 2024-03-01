@@ -1,8 +1,6 @@
-import Elements from "../framework/elements";
+import { ELEMENT } from "../framework/elements";
 
 const selector = 'div[class="card mt-4 top-card"]';
-
-const elements = new Elements();
 
 export class MainPage {
   protected getHeaderElement() {
@@ -14,18 +12,18 @@ export class MainPage {
   }
 
   clickElement(): void {
-    elements.clickElementAtIndex(selector, 0);
+    ELEMENT.clickElementAtIndex(selector, 0);
   }
 
   clickForms(): void {
-    elements.clickElementAtIndex(selector, 1);
+    ELEMENT.clickElementAtIndex(selector, 1);
   }
 
   clickWidgets(): void {
-    elements.clickElementAtIndex(selector, 3);
+    ELEMENT.clickElementAtIndex(selector, 3);
   }
 
   clickInteractions(): void {
-    elements.clickElementAtIndex(selector, 4);
+    ELEMENT.clickElementAtIndex(selector, 4);
   }
 }

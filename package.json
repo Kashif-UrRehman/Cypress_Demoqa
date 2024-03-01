@@ -6,7 +6,7 @@
   "scripts": {
     "test": "cypress run",
     "lint": "eslint .",
-    "cy:parallel": "cypress-parallel  -d cypress/e2e/ -t 2 -s test",
+    "cy:parallel": "cypress-parallel  -d cypress/e2e/ -t 2 -s test-allure",
     "cypress:dashboard": "npx cypress run --record --key c73a9637-a542-4d33-bcba-90706741c086",
     "test-allure": "npx cypress run --env allure=true",
     "allure:report": "allure generate allure-results --clean -o allure-report && allure open allure-report",

@@ -19,3 +19,4 @@ cypress.env.json
 /runner-results/
 /allure-results/
 parallel-weights.json
+cypress.env.json

@@ -96,12 +96,12 @@ Make sure you have the following installed:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/Kashif-Rehman/Cypress_Demoqa.git
+   git clone https://github.com/Kashif-UrRehman/Cypress_Demoqa.git
    ```
 
 2. **Navigate to the project directory:**
    ```bash
-   cd Cypress_Demoqa_Assignment
+   cd Cypress_Demoqa
    ```
 3. **Install dependencies:**
    ```bash

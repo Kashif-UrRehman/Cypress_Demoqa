@@ -8,6 +8,7 @@
 
 # Ignore Node.js modules (if you're using npm)
 /node_modules/
+cypress.env.json
 
 # Ignore log files
 *.log
